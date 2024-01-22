@@ -1,0 +1,12 @@
+.sk-form-item {
+  margin-bottom: 20px;
+}
+
+.sk-menu-item.is-active {
+  color: #ffffff !important;
+  background-color: var(--custom-color) !important;
+}
+
+.sk-menu-item:hover {
+  background-color: var(--custom-hover-color) !important ;
+}

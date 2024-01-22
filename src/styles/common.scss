@@ -1,0 +1,91 @@
+:root {
+  // 主题字体颜色
+  --content-font-color: #303133;
+  // 主题字体颜色 微浅
+  --content-font-info-color: #606266;
+  // 默认按钮颜色
+  --default-button-color: #79bbff;
+  // 主题边框颜色
+  --border-color: #dcdfe6;
+  // 侧边栏背景色
+  --side-bg-color: #001529;
+  // 侧边栏选中字体颜色
+  --side-active-font-color: #79bbff;
+  // 侧边栏字体颜色
+  --side-font-color: #ffffff;
+  // 侧边栏选中背景色
+  --custom-color: rgb(24, 144, 255);
+  --custom-hover-color: rgb(24, 144, 255, 0.3);
+  // 重置ele菜单选中颜色
+  --active-color: var(--custom-color);
+
+  // 头部导航栏高度
+  --base-header-height: 60px;
+  // tab高度
+  --base-tab-height: 40px;
+}
+
+.flex {
+  display: flex
+}
+
+.flex-center {
+  @extend .flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-between {
+  @extend .flex;
+  justify-content: space-between;
+}
+
+.link-text {
+  cursor: pointer;
+}
+
+.middle-icon {
+  vertical-align: middle;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.inset-0 {
+  inset: 0rem;
+}
+
+/* 页面切换动画-s */
+.slide-right-enter-active,
+.slide-right-leave-active,
+.slide-left-enter-active,
+.slide-left-leave-active {
+  will-change: transform;
+  transition: all 0.3s ease;
+}
+// slide-right
+.slide-right-enter-from {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+.slide-right-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+}
+// slide-left
+.slide-left-enter-from {
+  @extend .slide-right-leave-to;
+}
+.slide-left-leave-to {
+  @extend .slide-right-enter-from;
+}
+/* 页面切换动画-e */
