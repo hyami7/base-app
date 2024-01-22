@@ -3,7 +3,7 @@ import { store } from "@/store/index";
 import { Local } from "@/utils/storage";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { useRouter } from "vue-router";
-import { TAB_STORE } from "../constants";
+import { TAB_STORE } from "@/utils/constants";
 
 const state = {
   // tab

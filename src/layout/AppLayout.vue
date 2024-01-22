@@ -13,6 +13,8 @@ import { ref, onMounted } from "vue";
 import tabs from "./components/tabs/tab";
 import mainView from "./components/mainView";
 import { initWaterMark } from "@/utils/watermark";
+import { qiankunWindow } from "vite-plugin-qiankun/dist/helper";
+const isQiankun = qiankunWindow.__POWERED_BY_QIANKUN__
 
 const userStore = useUserStore();
 const tabsStore = useTabsStore();
@@ -39,7 +41,7 @@ onMounted(() => {
 
 <template>
   <el-container class="base-layout">
-    <el-header class="base-layout__header">
+    <el-header class="base-layout__header" v-if="!isQiankun">
       <div class="base-layout__header--logo">
         <img src="@/assets/images/home/logo@2x.png" alt="logo" />
       </div>
@@ -69,7 +71,7 @@ onMounted(() => {
       </div>
     </el-header>
     <el-container>
-      <el-aside class="base-layout__aside" width="200px">
+      <el-aside class="base-layout__aside" width="200px" v-if="!isQiankun">
         <el-scrollbar style="height: calc(100vh - var(--base-header-height))">
           <appMenu class="base-layout__aside--menu" />
 
@@ -79,7 +81,7 @@ onMounted(() => {
         </el-scrollbar>
       </el-aside>
       <el-main>
-        <tabs />
+        <tabs v-if="!isQiankun" />
         <mainView />
       </el-main>
     </el-container>

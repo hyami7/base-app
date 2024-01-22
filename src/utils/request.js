@@ -4,8 +4,12 @@ import { useUserStore } from "@/store/modules/user";
 import router from "@/router/";
 import CryptoJS from "crypto-js";
 
+import { qiankunWindow } from "vite-plugin-qiankun/dist/helper";
+
+let baseURL = "/api";
+if (qiankunWindow.__POWERED_BY_QIANKUN__) baseURL = "/base-appapi" + baseURL;
 const request = axios.create({
-  baseURL: import.meta.env.VITE_AXIOS_BASE_URL,
+  baseURL: baseURL,
 });
 
 // 请求拦截器

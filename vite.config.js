@@ -1,6 +1,8 @@
 import { defineConfig, loadEnv } from "vite";
 import { resolve } from "path";
 import vue from "@vitejs/plugin-vue";
+import qiankun from "vite-plugin-qiankun";
+import { name } from "./package.json";
 
 const pathResolve = (dir) => {
   return resolve(__dirname, ".", dir);
@@ -13,7 +15,12 @@ export default defineConfig((mode) => {
   );
   return {
     base: VITE_BASE_PATH,
-    plugins: [vue()],
+    plugins: [
+      vue(),
+      qiankun(name, {
+        useDevMode: true,
+      }),
+    ],
     resolve: {
       alias: {
         "@": pathResolve("./src/"),
@@ -30,10 +37,15 @@ export default defineConfig((mode) => {
     server: {
       host: "0.0.0.0",
       port: parseInt(VITE_PORT),
+      origin: "//localhost:" + parseInt(VITE_PORT),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
       proxy: {
         "/api": {
           target: "http://localhost:3500",
           rewrite: (path) => path.replace(/^\/api/, ""),
+          changeOrigin: true,
         },
       },
     },

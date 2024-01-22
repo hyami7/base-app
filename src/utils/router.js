@@ -4,7 +4,10 @@ import { ElNotification } from "element-plus";
 import { useTabsStore } from "@/store/modules/tabs";
 import { baseRoute } from "@/router/static";
 import { compact, reverse } from "lodash-es";
+import { qiankunWindow } from "vite-plugin-qiankun/dist/helper";
+
 const viewsComponent = import.meta.globEager("/src/views/**/*.vue");
+const routePrefix = qiankunWindow.__POWERED_BY_QIANKUN__ ? "/base-app" : "";
 
 /**
  * 导航失败有错误消息的路由push
@@ -133,7 +136,7 @@ const handleMenuRule = (routes, pathPrefix = "/", module = "admin") => {
       }
       menuRule.push({
         id: routes[key].id,
-        path: currentPath,
+        path: routePrefix + currentPath,
         name: routes[key].name,
         component: "/src/views/" + routes[key].path + ".vue",
         meta: {

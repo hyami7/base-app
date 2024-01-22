@@ -169,7 +169,7 @@ function getAwesomeIconfontNames() {
     nextTick(() => {
       const iconfonts = [];
       let cssUrl =
-        import.meta.env.VITE_BASE_PATH + "/fontAwesome/font-awesome.min.css";
+        import.meta.env.VITE_AXIOS_BASE_URL + "/fontAwesome/font-awesome.min.css";
       const sheets = getStylesFromDomain(cssUrl);
       for (const key in sheets) {
         const rules = sheets[key].cssRules;

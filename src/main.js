@@ -8,12 +8,46 @@ import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import "element-plus/dist/index.css";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 
-const app = createApp(App);
-for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-  app.component(key, component);
-}
-app.use(ElementPlus, { zIndex: 3000, locale: zhCn });
+import {
+  renderWithQiankun,
+  qiankunWindow,
+} from "vite-plugin-qiankun/dist/helper";
 
-app.use(router);
-app.use(store);
-app.mount("#base-app");
+let app;
+
+function render(props) {
+  const { container } = props;
+  app = createApp(App);
+  for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component);
+  }
+  const element = container
+    ? container.querySelector("#base-app")
+    : document.getElementById("base-app");
+
+  app.use(ElementPlus, { zIndex: 3000, locale: zhCn });
+  app.use(router);
+  app.use(store);
+  app.mount(element);
+}
+
+renderWithQiankun({
+  mount(props) {
+    localStorage.setItem("inQianKun", qiankunWindow.__POWERED_BY_QIANKUN__);
+    render(props);
+  },
+  bootstrap() {
+    console.log("base-app bootstrap");
+  },
+  unmount(props) {
+    console.log("base-app unmount");
+    app.unmount();
+  },
+  update(props) {
+    console.log("base-app update");
+    console.log(props);
+  },
+});
+if (!qiankunWindow.__POWERED_BY_QIANKUN__) {
+  render({});
+}
