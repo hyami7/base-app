@@ -66,15 +66,7 @@ const onContextmenuItem = async (item) => {
 };
 
 const refreshTab = async (menu) => {
-  tabsStore.setKeepaliveList(
-    tabsStore.keepaliveList.filter((x) => x !== menu.name)
-  );
-  tabsStore.setActiveKey("");
-  await router.push(menu.path);
-  nextTick(() => {
-    tabsStore.setActiveKey(menu.path);
-    tabsStore.addKeepaliveList(menu);
-  });
+  tabsStore.refreshTab(menu)
 };
 
 const closeCheckTab = (menu) => {
@@ -84,14 +76,15 @@ const closeCheckTab = (menu) => {
     // 删除当前tab
     tabsStore.setTabs(tabsStore.tabs.filter((x) => x.name !== menu.name));
     // 如果剩下tab大于1则设置选中tab为上一个 否则设置为第一个
-    if (tabsStore.tabs.length > 1) {
+    if (tabsStore.tabs.length > 1 && mIndex > 0) {
       state.activeTabKey = tabsStore.tabs[mIndex - 1].path;
     } else {
-      state.activeTabKey = tabsStore.tabs[0];
+      state.activeTabKey = tabsStore.tabs[0].path;
     }
   } else {
     tabsStore.setTabs(tabsStore.tabs.filter((x) => x.name !== menu.name));
   }
+  router.push(state.activeTabKey)
 };
 
 const closeOtherTab = (menu) => {
@@ -104,6 +97,7 @@ const closeOtherTab = (menu) => {
       state.activeTabKey = menu.path;
     }
   }
+  router.push(state.activeTabKey)
 };
 
 const onContextmenu = (menu, el) => {
