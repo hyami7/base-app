@@ -19,21 +19,21 @@
 -->
 
 <script setup>
-import { watch } from "vue";
-import { useTabsStore } from "@/store/modules/tabs";
-import { useRoute } from "vue-router";
+import { watch } from 'vue'
+import { useTabsStore } from '@/store/modules/tabs'
+import { useRoute } from 'vue-router'
 
-const route = useRoute();
-const tabsStore = useTabsStore();
+const route = useRoute()
+const tabsStore = useTabsStore()
 
 watch(
   () => route.path,
   () => {
-    tabsStore.setActiveKey(route.path);
-    tabsStore.addKeepaliveList(route);
+    tabsStore.setActiveKey(route.path)
+    tabsStore.addKeepaliveList(route)
   },
   { immediate: true }
-);
+)
 </script>
 
 <style lang="scss" scoped>

@@ -1,11 +1,6 @@
 <template>
   <div class="login flex-center">
-    <el-form
-      ref="formRef"
-      :model="user"
-      class="login-form"
-      @submit.prevent="handleSubmit"
-    >
+    <el-form ref="formRef" :model="user" class="login-form" @submit.prevent="handleSubmit">
       <h1 class="login-title">登录</h1>
       <el-form-item prop="account" :rules="rules.change">
         <el-input v-model.number="user.account" type="text">
@@ -22,65 +17,58 @@
         </el-input>
       </el-form-item>
       <el-form-item>
-        <el-button
-          style="width: 100%"
-          type="primary"
-          :loading="loading"
-          native-type="submit"
-        >
-          登录
-        </el-button>
+        <el-button style="width: 100%" type="primary" :loading="loading" native-type="submit"> 登录 </el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script setup>
-import { reactive, ref, onMounted } from "vue";
-import { login, randomString } from "@/api/common";
-import { useRouter, useRoute } from "vue-router";
-import { useUserStore } from "@/store/modules/user";
-import CryptoJS from "crypto-js";
-import { loginData } from "./data";
-import { initWaterMark } from "@/utils/watermark";
+import { reactive, ref, onMounted } from 'vue'
+import { login, randomString } from '@/api/common'
+import { useRouter, useRoute } from 'vue-router'
+import { useUserStore } from '@/store/modules/user'
+import CryptoJS from 'crypto-js'
+import { loginData } from './data'
+import { initWaterMark } from '@/utils/watermark'
 
-const router = useRouter();
-const route = useRoute();
-const userStore = useUserStore();
-const formRef = ref(null);
+const router = useRouter()
+const route = useRoute()
+const userStore = useUserStore()
+const formRef = ref(null)
 const rules = ref({
-  change: [{ required: true, message: "请输入", trigger: "change" }],
-});
-const loading = ref(false);
+  change: [{ required: true, message: '请输入', trigger: 'change' }],
+})
+const loading = ref(false)
 const user = reactive({
-  account: "admin",
+  account: 'admin',
   password: undefined,
-});
+})
 
 const handleSubmit = async () => {
-  const valid = await formRef.value?.validate();
+  const valid = await formRef.value?.validate()
   if (!valid) {
-    return false;
+    return false
   }
-  loading.value = true;
+  loading.value = true
 
   // const data = await login(user).finally(() => {
   //   loading.value = false;
   // });
-  const data = loginData;
-  userStore.setUser({ ...data.user, token: data.token });
-  loading.value = false;
+  const data = loginData
+  userStore.setUser({ ...data.user, token: data.token })
+  loading.value = false
 
-  let redirect = route.query.redirect || "/";
-  if (typeof redirect !== "string") {
-    redirect = "/";
+  let redirect = route.query.redirect || '/'
+  if (typeof redirect !== 'string') {
+    redirect = '/'
   }
-  router.replace(redirect);
-};
+  router.replace(redirect)
+}
 
 onMounted(() => {
-  initWaterMark("");
-});
+  initWaterMark('')
+})
 </script>
 
 <style lang="scss" scoped>
@@ -88,7 +76,7 @@ onMounted(() => {
   height: 100vh;
   width: 100vw;
   background-color: $main;
-  background-image: url("@/assets/images/login/bg.jpg");
+  background-image: url('@/assets/images/login/bg.jpg');
   background-size: cover;
   justify-content: end;
 

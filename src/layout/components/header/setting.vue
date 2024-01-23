@@ -8,11 +8,7 @@
       <el-descriptions title="整体风格" :column="5">
         <el-descriptions-item v-for="theme in themeStyle" :key="theme.value">
           <el-tooltip :content="theme.label" placement="top">
-            <div
-              class="style-checbox-item"
-              :class="{ active: theme.value }"
-              @click="setNavTheme(theme.value)"
-            >
+            <div class="style-checbox-item" :class="{ active: theme.value }" @click="setNavTheme(theme.value)">
               {{ theme.label }}
             </div>
           </el-tooltip>
@@ -22,13 +18,8 @@
         <el-descriptions-item v-for="item in themeColors" :key="item.key">
           <div class="style-checbox-item">
             <el-tooltip :content="item.title">
-              <el-tag
-                :color="item.value"
-                @click="setThemeColor({ primaryColor: item.value })"
-              >
-                <span :style="{ visibility: item.value, color: '#fff' }">
-                  ✔
-                </span>
+              <el-tag :color="item.value" @click="setThemeColor({ primaryColor: item.value })">
+                <span :style="{ visibility: item.value, color: '#fff' }"> ✔ </span>
               </el-tag>
             </el-tooltip>
           </div>
@@ -45,11 +36,7 @@
       </el-descriptions>
       <el-descriptions title="导航模式" :column="5">
         <el-descriptions-item v-for="item in layouts" :key="item.value">
-          <div
-            class="style-checbox-item"
-            :class="{ active: item.value }"
-            @click="setLayout(item.value)"
-          >
+          <div class="style-checbox-item" :class="{ active: item.value }" @click="setLayout(item.value)">
             {{ item.label }}
           </div>
         </el-descriptions-item>
@@ -59,13 +46,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { themeStyle, themeColors, layouts } from "./theme-contant.js";
-let showDrawer = ref(false);
-const defaultColor =
-  document.documentElement.style.getPropertyValue("--custom-color");
-const customColor = ref(defaultColor);
-const setNavTheme = () => {};
+import { ref } from 'vue'
+import { themeStyle, themeColors, layouts } from './theme-contant.js'
+let showDrawer = ref(false)
+const defaultColor = document.documentElement.style.getPropertyValue('--custom-color')
+const customColor = ref(defaultColor)
+const setNavTheme = () => {}
 </script>
 
 <style lang="scss" scoped>

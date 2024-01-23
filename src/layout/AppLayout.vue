@@ -1,42 +1,42 @@
 <script setup>
-import appMenu from "./components/menu/appMenu";
-import toggleSideBar from "./components/menu/toggleSideBar";
-import fullScreen from "./components/header/fullScreen";
-import setting from "./components/header/setting";
-import userInfo from "./components/header/userInfo";
-import message from "./components/header/message";
-import { useUserStore } from "@/store/modules/user";
-import { useTabsStore } from "@/store/modules/tabs";
-import { useRouter } from "vue-router";
-import { handleAdminRoute, getFirstRoute, routePush } from "@/utils/router";
-import { ref, onMounted } from "vue";
-import tabs from "./components/tabs/tab";
-import mainView from "./components/mainView";
-import { initWaterMark } from "@/utils/watermark";
-import { qiankunWindow } from "vite-plugin-qiankun/dist/helper";
+import appMenu from './components/menu/appMenu'
+import toggleSideBar from './components/menu/toggleSideBar'
+import fullScreen from './components/header/fullScreen'
+import setting from './components/header/setting'
+import userInfo from './components/header/userInfo'
+import message from './components/header/message'
+import { useUserStore } from '@/store/modules/user'
+import { useTabsStore } from '@/store/modules/tabs'
+import { useRouter } from 'vue-router'
+import { handleAdminRoute, getFirstRoute, routePush } from '@/utils/router'
+import { ref, onMounted } from 'vue'
+import tabs from './components/tabs/tab'
+import mainView from './components/mainView'
+import { initWaterMark } from '@/utils/watermark'
+import { qiankunWindow } from 'vite-plugin-qiankun/dist/helper'
 const isQiankun = qiankunWindow.__POWERED_BY_QIANKUN__
 
-const userStore = useUserStore();
-const tabsStore = useTabsStore();
-const router = useRouter();
-const inputRef = ref(null);
+const userStore = useUserStore()
+const tabsStore = useTabsStore()
+const router = useRouter()
+const inputRef = ref(null)
 const handleSearch = () => {
-  tabsStore.setIsSearchMenu(!tabsStore.isSearchMenu);
+  tabsStore.setIsSearchMenu(!tabsStore.isSearchMenu)
   if (tabsStore.isSearchMenu) {
-    inputRef.value.focus();
+    inputRef.value.focus()
   }
-};
+}
 
-handleAdminRoute(userStore.user.menus[0].tree, router);
+handleAdminRoute(userStore.user.menus[0].tree, router)
 // 跳转到第一个菜单
-let firstRoute = getFirstRoute(tabsStore.routeViews, router);
+let firstRoute = getFirstRoute(tabsStore.routeViews, router)
 if (firstRoute) {
-  routePush(firstRoute.path, router);
+  routePush(firstRoute.path, router)
 }
 
 onMounted(() => {
-  initWaterMark(userStore.user.username);
-});
+  initWaterMark(userStore.user.username)
+})
 </script>
 
 <template>
