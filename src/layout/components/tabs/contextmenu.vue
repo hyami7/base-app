@@ -2,9 +2,7 @@
   <transition name="sk-zoom-in-center">
     <div
       class="sk-popper is-pure is-light sk-dropdown__popper ba-contextmenu"
-      :style="`top: ${state.axis.y + 5}px;left: ${
-        state.axis.x - 14
-      }px;width:145px`"
+      :style="`top: ${state.axis.y + 5}px;left: ${state.axis.x - 14}px;width:145px`"
       :key="Math.random()"
       v-show="state.show"
       aria-hidden="false"
@@ -12,28 +10,20 @@
     >
       <ul class="sk-dropdown-menu">
         <template v-for="(item, idx) in props.items" :key="idx">
-          <li
-            class="sk-dropdown-menu__item"
-            :class="item.disabled ? 'is-disabled' : ''"
-            tabindex="-1"
-            @click="onContextmenuItem(item)"
-          >
-            <span :class="item.icon" style="margin-right: 8px;"></span>
+          <li class="sk-dropdown-menu__item" :class="item.disabled ? 'is-disabled' : ''" tabindex="-1" @click="onContextmenuItem(item)">
+            <span :class="item.icon" style="margin-right: 8px"></span>
             <span>{{ item.label }}</span>
           </li>
         </template>
       </ul>
-      <span
-        class="sk-popper__arrow"
-        :style="{ left: `${state.arrowAxis}px` }"
-      ></span>
+      <span class="sk-popper__arrow" :style="{ left: `${state.arrowAxis}px` }"></span>
     </div>
   </transition>
 </template>
 
 <script setup>
-import { onMounted, reactive, toRaw } from "vue";
-import { useEventListener } from "@vueuse/core";
+import { onMounted, reactive, toRaw } from 'vue';
+import { useEventListener } from '@vueuse/core';
 const props = defineProps({
   width: Number | String,
   items: Array,
@@ -60,7 +50,7 @@ const onShowContextmenu = (menu, axis) => {
 const onContextmenuItem = (item) => {
   if (item.disabled) return;
   item.menu = toRaw(state.menu);
-  emits("contextmenuItemClick", item);
+  emits('contextmenuItemClick', item);
 };
 
 const onHideContextmenu = () => {
@@ -72,7 +62,7 @@ defineExpose({
 });
 
 onMounted(() => {
-  useEventListener(document, "click", onHideContextmenu);
+  useEventListener(document, 'click', onHideContextmenu);
 });
 </script>
 

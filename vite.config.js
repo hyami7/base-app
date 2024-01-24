@@ -1,18 +1,15 @@
-import { defineConfig, loadEnv } from "vite";
-import { resolve } from "path";
-import vue from "@vitejs/plugin-vue";
-import qiankun from "vite-plugin-qiankun";
-import { name } from "./package.json";
+import { defineConfig, loadEnv } from 'vite';
+import { resolve } from 'path';
+import vue from '@vitejs/plugin-vue';
+import qiankun from 'vite-plugin-qiankun';
+import { name } from './package.json';
 
 const pathResolve = (dir) => {
-  return resolve(__dirname, ".", dir);
+  return resolve(__dirname, '.', dir);
 };
 
 export default defineConfig((mode) => {
-  const { VITE_PORT, VITE_BASE_PATH, VITE_PROXY_URL } = loadEnv(
-    mode,
-    process.cwd()
-  );
+  const { VITE_PORT, VITE_BASE_PATH, VITE_PROXY_URL } = loadEnv(mode, process.cwd());
   return {
     base: VITE_BASE_PATH,
     plugins: [
@@ -23,9 +20,10 @@ export default defineConfig((mode) => {
     ],
     resolve: {
       alias: {
-        "@": pathResolve("./src/"),
+        '@': pathResolve('./src/'),
+        '~': pathResolve('./src/assets/'),
       },
-      extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".vue"],
+      extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
     },
     css: {
       preprocessorOptions: {
@@ -35,16 +33,16 @@ export default defineConfig((mode) => {
       },
     },
     server: {
-      host: "0.0.0.0",
+      host: '0.0.0.0',
       port: parseInt(VITE_PORT),
-      origin: "//localhost:" + parseInt(VITE_PORT),
+      origin: '//localhost:' + parseInt(VITE_PORT),
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Origin': '*',
       },
       proxy: {
-        "/api": {
-          target: "http://localhost:3500",
-          rewrite: (path) => path.replace(/^\/api/, ""),
+        '/api': {
+          target: 'http://localhost:3500',
+          rewrite: (path) => path.replace(/^\/api/, ''),
           changeOrigin: true,
         },
       },

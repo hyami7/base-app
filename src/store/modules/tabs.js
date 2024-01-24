@@ -1,9 +1,9 @@
-import { defineStore } from "pinia";
-import { store } from "@/store/index";
-import { Local } from "@/utils/storage";
-import { ElMessage, ElMessageBox } from "element-plus";
-import router from "@/router/index";
-import { TAB_STORE } from "@/utils/constants";
+import { defineStore } from 'pinia';
+import { store } from '@/store/index';
+import { Local } from '@/utils/storage';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import router from '@/router/index';
+import { TAB_STORE } from '@/utils/constants';
 
 const state = {
   // tab
@@ -11,16 +11,16 @@ const state = {
   routeViews: [],
 
   // 菜单搜索
-  searchMenuText: "",
+  searchMenuText: '',
   isSearchMenu: false,
 
   // keepalive
-  activeKey: "",
+  activeKey: '',
   keepaliveList: [],
 };
 
 export const useTabsStore = defineStore({
-  id: "tabs",
+  id: 'tabs',
   state: () => state,
   getters: {},
   actions: {
@@ -97,7 +97,7 @@ export const useTabsStore = defineStore({
     async refreshTab(route) {
       route = route || router.currentRoute?.value || {};
       this.setKeepaliveList(this.keepaliveList.filter((x) => x !== route.name));
-      this.setActiveKey("");
+      this.setActiveKey('');
       await router.push(route);
       this.setActiveKey(route.path);
       this.addKeepaliveList(route);

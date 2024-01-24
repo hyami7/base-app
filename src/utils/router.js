@@ -1,13 +1,13 @@
 /* @vite-ignore */
-import { isNavigationFailure, NavigationFailureType } from "vue-router";
-import { ElNotification } from "element-plus";
-import { useTabsStore } from "@/store/modules/tabs";
-import { baseRoute } from "@/router/static";
-import { compact, reverse } from "lodash-es";
-import { qiankunWindow } from "vite-plugin-qiankun/dist/helper";
+import { isNavigationFailure, NavigationFailureType } from 'vue-router';
+import { ElNotification } from 'element-plus';
+import { useTabsStore } from '@/store/modules/tabs';
+import { baseRoute } from '@/router/static';
+import { compact, reverse } from 'lodash-es';
+import { qiankunWindow } from 'vite-plugin-qiankun/dist/helper';
 
-const viewsComponent = import.meta.globEager("/src/views/**/*.vue");
-const routePrefix = qiankunWindow.__POWERED_BY_QIANKUN__ ? "/base-app" : "";
+const viewsComponent = import.meta.globEager('/src/views/**/*.vue');
+const routePrefix = qiankunWindow.__POWERED_BY_QIANKUN__ ? '/base-app' : '';
 
 /**
  * 导航失败有错误消息的路由push
@@ -18,17 +18,17 @@ export const routePush = async (to, router) => {
     const failure = await router.push(to);
     if (isNavigationFailure(failure, NavigationFailureType.aborted)) {
       ElNotification({
-        message: "utils.Navigation failed, navigation guard intercepted!",
-        type: "error",
+        message: 'utils.Navigation failed, navigation guard intercepted!',
+        type: 'error',
       });
     }
   } catch (error) {
-    if (error && error.toString().concat("401")) {
+    if (error && error.toString().concat('401')) {
       return;
     }
     ElNotification({
-      message: "utils.Navigation failed, invalid route!",
-      type: "error",
+      message: 'utils.Navigation failed, invalid route!',
+      type: 'error',
     });
     console.error(error);
   }
@@ -45,10 +45,7 @@ export const getFirstRoute = (routes, router) => {
   });
   let find = false;
   for (const key in routes) {
-    if (
-      routes[key].meta?.type != "menu_dir" &&
-      routerPaths.indexOf(routes[key].path) !== -1
-    ) {
+    if (routes[key].meta?.type != 'menu_dir' && routerPaths.indexOf(routes[key].path) !== -1) {
       return routes[key];
     } else if (routes[key].children && routes[key].children?.length) {
       find = getFirstRoute(routes[key].children, router);
@@ -64,16 +61,16 @@ export const getFirstRoute = (routes, router) => {
  */
 export const onClickMenu = (menu, router) => {
   switch (menu.meta?.menuType) {
-    case "tab":
+    case 'tab':
       routePush({ path: menu.path }, router);
       break;
-    case "link":
-      window.open(menu.path, "_blank");
+    case 'link':
+      window.open(menu.path, '_blank');
       break;
     default:
       ElNotification({
-        message: "utils.Navigation failed, the menu type is unrecognized!",
-        type: "error",
+        message: 'utils.Navigation failed, the menu type is unrecognized!',
+        type: 'error',
       });
       break;
   }
@@ -84,8 +81,8 @@ export const onClickMenu = (menu, router) => {
  */
 export const handleAdminRoute = (routes, router) => {
   addRouteAll(viewsComponent, routes, baseRoute.name, false, router);
-  const menuAdminBaseRoute = baseRoute.name ? "/" + baseRoute.name + "/" : "/";
-  const menuRule = handleMenuRule(routes, menuAdminBaseRoute, "admin");
+  const menuAdminBaseRoute = baseRoute.name ? '/' + baseRoute.name + '/' : '/';
+  const menuRule = handleMenuRule(routes, menuAdminBaseRoute, 'admin');
   // // 更新stores中的路由菜单数据
   const tabsStore = useTabsStore();
   tabsStore.setRouteViews(menuRule);
@@ -108,28 +105,21 @@ export const getMenuPaths = (menus) => {
 /**
  * 菜单处理
  */
-const handleMenuRule = (routes, pathPrefix = "/", module = "admin") => {
+const handleMenuRule = (routes, pathPrefix = '/', module = 'admin') => {
   const menuRule = [];
   for (const key in routes) {
     // 隐藏菜单
-    if (routes[key].visible !== "0") {
+    if (routes[key].visible !== '0') {
       continue;
     }
-    if (routes[key].extend == "add_rules_only") {
+    if (routes[key].extend == 'add_rules_only') {
       continue;
     }
-    if (routes[key].type == "menu" || routes[key].type == "menu_dir") {
-      if (
-        routes[key].type == "menu_dir" &&
-        routes[key].children &&
-        !routes[key].children.length
-      ) {
+    if (routes[key].type == 'menu' || routes[key].type == 'menu_dir') {
+      if (routes[key].type == 'menu_dir' && routes[key].children && !routes[key].children.length) {
         continue;
       }
-      const currentPath =
-        routes[key].menuType == "link"
-          ? routes[key].path
-          : pathPrefix + routes[key].path;
+      const currentPath = routes[key].menuType == 'link' ? routes[key].path : pathPrefix + routes[key].path;
       let children = [];
       if (routes[key].children && routes[key].children.length > 0) {
         children = handleMenuRule(routes[key].children, pathPrefix, module);
@@ -138,14 +128,14 @@ const handleMenuRule = (routes, pathPrefix = "/", module = "admin") => {
         id: routes[key].id,
         path: routePrefix + currentPath,
         name: routes[key].name,
-        component: "/src/views/" + routes[key].path + ".vue",
+        component: '/src/views/' + routes[key].path + '.vue',
         meta: {
           title: routes[key].title,
-          icon: "fa " + routes[key].icon,
+          icon: 'fa ' + routes[key].icon,
           keepalive: routes[key].keepalive,
           type: routes[key].type,
           menuType: routes[key].menuType,
-          keepalive: routes[key].cacheSupported == 1 ? routes[key].name : "",
+          keepalive: routes[key].cacheSupported == 1 ? routes[key].name : '',
         },
         children: children,
       });
@@ -161,38 +151,17 @@ const handleMenuRule = (routes, pathPrefix = "/", module = "admin") => {
  * @param parentName
  * @param analyticRelation 根据 name 从已注册路由分析父级路由
  */
-export const addRouteAll = (
-  viewsComponent,
-  routes,
-  parentName,
-  analyticRelation = false,
-  router
-) => {
+export const addRouteAll = (viewsComponent, routes, parentName, analyticRelation = false, router) => {
   for (const idx in routes) {
-    if (routes[idx].extend == "add_menu_only") {
+    if (routes[idx].extend == 'add_menu_only') {
       continue;
     }
-    if (
-      routes[idx].menuType == "tab" &&
-      viewsComponent["/src/views/" + routes[idx].path + ".vue"]
-    ) {
-      addRouteItem(
-        viewsComponent,
-        routes[idx],
-        parentName,
-        analyticRelation,
-        router
-      );
+    if (routes[idx].menuType == 'tab' && viewsComponent['/src/views/' + routes[idx].path + '.vue']) {
+      addRouteItem(viewsComponent, routes[idx], parentName, analyticRelation, router);
     }
 
     if (routes[idx].children && routes[idx].children.length > 0) {
-      addRouteAll(
-        viewsComponent,
-        routes[idx].children,
-        parentName,
-        analyticRelation,
-        router
-      );
+      addRouteAll(viewsComponent, routes[idx].children, parentName, analyticRelation, router);
     }
   }
 };
@@ -204,19 +173,13 @@ export const addRouteAll = (
  * @param parentName
  * @param analyticRelation 根据 name 从已注册路由分析父级路由
  */
-export const addRouteItem = (
-  viewsComponent,
-  route,
-  parentName,
-  analyticRelation,
-  router
-) => {
-  let path = "",
+export const addRouteItem = (viewsComponent, route, parentName, analyticRelation, router) => {
+  let path = '',
     component;
-  path = parentName ? route.path : "/" + route.path;
-  component = viewsComponent["/src/views/" + route.path + ".vue"].default;
+  path = parentName ? route.path : '/' + route.path;
+  component = viewsComponent['/src/views/' + route.path + '.vue'].default;
   component.name = route.name;
-  if (route.menuType === "tab" && analyticRelation) {
+  if (route.menuType === 'tab' && analyticRelation) {
     const parentNames = getParentNames(route.name);
     if (parentNames.length) {
       for (const key in parentNames) {
@@ -234,8 +197,8 @@ export const addRouteItem = (
     meta: {
       title: route.title,
       extend: route.extend,
-      icon: "fa " + route.icon,
-      keepalive: route.cacheSupported == 1 ? route.name : "",
+      icon: 'fa ' + route.icon,
+      keepalive: route.cacheSupported == 1 ? route.name : '',
       menuType: route.menuType,
       type: route.type,
       addtab: true,
@@ -245,7 +208,7 @@ export const addRouteItem = (
   if (parentName) {
     router.addRoute(parentName, routeBaseInfo);
   } else {
-    router.addRoute("home", routeBaseInfo);
+    router.addRoute('home', routeBaseInfo);
   }
 };
 
@@ -254,13 +217,13 @@ export const addRouteItem = (
  * @param name
  */
 const getParentNames = (name) => {
-  const names = compact(name.split("/"));
+  const names = compact(name.split('/'));
   const tempNames = [];
   const parentNames = [];
   for (const key in names) {
     tempNames.push(names[key]);
     if (parseInt(key) != names.length - 1) {
-      parentNames.push(tempNames.join("/"));
+      parentNames.push(tempNames.join('/'));
     }
   }
   return reverse(parentNames);

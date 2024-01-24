@@ -7,15 +7,15 @@
 </template>
 
 <script setup>
-import { onMounted, watch } from "vue";
-import { useRoute } from "vue-router";
-import { setTitleFromRoute } from "@/utils/common";
-import iconfontInit from '@/utils/iconfont'
+import { onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { setTitleFromRoute } from '@/utils/common';
+import iconfontInit from '@/utils/iconfont';
 
 const route = useRoute();
 onMounted(() => {
-    iconfontInit()
-})
+  iconfontInit();
+});
 // 监听路由变化时更新浏览器标题
 watch(
   () => route.path,

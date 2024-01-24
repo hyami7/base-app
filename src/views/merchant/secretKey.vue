@@ -3,75 +3,75 @@
 </template>
 
 <script setup>
-import STable from "@/components/tablePage";
-import Print from "@/utils/print";
-import { ref } from "vue";
-const tableRef = ref(null);
+import STable from '@/components/tablePage'
+import Print from '@/utils/print'
+import { ref } from 'vue'
+const tableRef = ref(null)
 
 const tableConfig = {
   toolBar: [
     {
-      label: "新增",
+      label: '新增',
       click: () => {},
     },
     {
-      label: "刷新",
+      label: '刷新',
       click: () => {},
     },
     {
-      label: "删除",
+      label: '删除',
       click: () => {},
     },
     {
-      label: "打印",
+      label: '打印',
       click: () => {
-        Print(tableRef.value);
+        Print(tableRef.value)
       },
     },
   ],
   table: {
     columns: [
       {
-        type: "selection",
+        type: 'selection',
         fixed: true,
-        width: "55",
+        width: '55',
       },
       {
-        type: "index",
+        type: 'index',
         fixed: true,
-        width: "55",
-        label: "序号",
+        width: '55',
+        label: '序号',
       },
       {
-        prop: "mcId",
-        label: "商户",
+        prop: 'mcId',
+        label: '商户',
         search: true,
-        width: "180",
+        width: '180',
       },
       {
-        prop: "frontId",
-        label: "前置机",
+        prop: 'frontId',
+        label: '前置机',
         search: true,
-        width: "180",
+        width: '180',
       },
       {
-        prop: "bankCode",
-        label: "银行Code",
-        search: true,
-      },
-      {
-        prop: "interVersion",
-        label: "接口版本",
+        prop: 'bankCode',
+        label: '银行Code',
         search: true,
       },
       {
-        prop: "interCode",
-        label: "接口",
+        prop: 'interVersion',
+        label: '接口版本',
+        search: true,
+      },
+      {
+        prop: 'interCode',
+        label: '接口',
       },
     ],
-    url: "/mcBank/openInter/page",
+    url: '/mcBank/openInter/page',
   },
-};
+}
 </script>
 
 <style lang="scss" scoped></style>

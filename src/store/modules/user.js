@@ -1,13 +1,13 @@
-import { defineStore } from "pinia";
-import { store } from "@/store/index";
-import { Local } from "@/utils/storage";
-import { USER, CURRENT_APP } from "@/utils/constants";
-import { ElMessage, ElMessageBox } from "element-plus";
-import { logout } from "@/api/common";
-import { useRouter } from "vue-router";
+import { defineStore } from 'pinia';
+import { store } from '@/store/index';
+import { Local } from '@/utils/storage';
+import { USER, CURRENT_APP } from '@/utils/constants';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { logout } from '@/api/common';
+import { useRouter } from 'vue-router';
 
 const state = {
-  siteName: "base",
+  siteName: 'base',
   isCollapse: false,
   user: Local.get(USER),
   currentApp: Local.get(CURRENT_APP),
@@ -15,7 +15,7 @@ const state = {
 };
 
 export const useUserStore = defineStore({
-  id: "user",
+  id: 'user',
   state: () => state,
   getters: {},
   actions: {
@@ -34,13 +34,13 @@ export const useUserStore = defineStore({
       this.appMenus = menus;
     },
     logout() {
-      ElMessageBox.confirm("确认退出吗？", {})
+      ElMessageBox.confirm('确认退出吗？', {})
         .then(async () => {
           await logout();
-          ElMessage.success("退出成功！");
+          ElMessage.success('退出成功！');
           this.setUser(null);
           const router = useRouter();
-          router.push({ name: "login" });
+          router.push({ name: 'login' });
         })
         .catch(() => {});
     },

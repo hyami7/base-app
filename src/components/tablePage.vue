@@ -1,12 +1,12 @@
 <script setup>
-import { computed, reactive, ref, shallowRef, watch } from "vue";
-import { ElMessage } from "element-plus";
-import request from "@/utils/request";
+import { computed, reactive, ref, shallowRef, watch } from 'vue';
+import { ElMessage } from 'element-plus';
+import request from '@/utils/request';
 
 const tableHeightCss = computed(() => {
   return `calc(100vh - 248px)`;
 });
-const defineBtnProps = { type: "primary" };
+const defineBtnProps = { type: 'primary' };
 const props = defineProps({
   toolBar: { type: Array, default: () => [] },
   table: {
@@ -15,9 +15,7 @@ const props = defineProps({
   },
 });
 const toolBar = computed(() => {
-  return props.toolBar.filter(
-    (btn) => btn.permission === undefined || btn.permission
-  );
+  return props.toolBar.filter((btn) => btn.permission === undefined || btn.permission);
 });
 const toolBarBtn = computed(() => {
   const viewBtns = toolBar.value.slice(0, 3);
@@ -31,11 +29,9 @@ const moreToolBar = computed(() => {
   return moreBtns.map((btn) => ({ ...defineBtnProps, ...btn }));
 });
 
-const dialogInfo = reactive({ dialogTableVisible: false, title: "", url: "" });
+const dialogInfo = reactive({ dialogTableVisible: false, title: '', url: '' });
 
-const changeDialog = (
-  { title, url, height } = { title: "", url: "", height: "" }
-) => {
+const changeDialog = ({ title, url, height } = { title: '', url: '', height: '' }) => {
   Object.assign(dialogInfo, {
     dialogTableVisible: !dialogInfo.dialogTableVisible,
     title,
@@ -61,32 +57,29 @@ const searchItem = computed(() => {
     return props.table.columns
       .filter((col) => col.search)
       .map((col) => {
-        searchParams.value[col.prop] = "";
-        defaultSearch[col.prop] = "";
+        searchParams.value[col.prop] = '';
+        defaultSearch[col.prop] = '';
         if (col.searchKey) {
-          defaultSearch[col.searchKey] = "";
+          defaultSearch[col.searchKey] = '';
         }
         const result = {
           label: col.label,
           prop: col.prop,
           optionLabel: col.optionLabel,
           optionValue: col.optionValue,
-          type: col.searchOptions ? "el-select" : col.searchType || "el-input",
+          type: col.searchOptions ? 'el-select' : col.searchType || 'el-input',
           key: col.searchKey,
           props: col.searchProps,
           defaultProps: col.defaultProps,
         };
         if (Array.isArray(col.searchOptions)) {
           result.options = col.searchOptions;
-        } else if (typeof col.searchOptions === "string" || col.searchUrl) {
+        } else if (typeof col.searchOptions === 'string' || col.searchUrl) {
           request({
             url: col.searchOptions || col.searchUrl,
-            method: "get",
+            method: 'get',
           }).then((data) => {
-            if (col.searchUrl)
-              result.data = col.searchCallBack
-                ? col.searchCallBack(data.data)
-                : data.data;
+            if (col.searchUrl) result.data = col.searchCallBack ? col.searchCallBack(data.data) : data.data;
             else result.options = data.data;
           });
         }
@@ -104,7 +97,7 @@ const loading = ref(false);
 const drawer = ref(false);
 const currentRow = ref(null);
 const tableRef = ref(null);
-const emits = defineEmits(["tableCurrentChange", "tableSelectionChange"]);
+const emits = defineEmits(['tableCurrentChange', 'tableSelectionChange']);
 
 function treeFormat(source) {
   if (!Array.isArray(source)) return source;
@@ -132,7 +125,7 @@ const getData = (params = {}) => {
   loading.value = true;
   let data = { ...params };
   for (let key in data) {
-    if (data[key] === "") {
+    if (data[key] === '') {
       delete data[key];
     }
   }
@@ -145,12 +138,12 @@ const getData = (params = {}) => {
   };
   const requestConfig = {
     url: props.table.url,
-    method: props.table.method || "post",
+    method: props.table.method || 'post',
     headers: {
-      "Content-Type": "application/json;charset=UTF-8",
+      'Content-Type': 'application/json;charset=UTF-8',
     },
   };
-  if (props.table.method && props.table.method.toLocaleLowerCase === "get") {
+  if (props.table.method && props.table.method.toLocaleLowerCase === 'get') {
     requestConfig.params = defaultParams;
   } else {
     requestConfig.data = defaultParams;
@@ -161,14 +154,12 @@ const getData = (params = {}) => {
   return request(requestConfig)
     .then((res) => {
       if (res.success && res.data) {
-        if (props.table.type === "list") {
+        if (props.table.type === 'list') {
           tableData.value = res.data;
           return;
         }
-        if (props.table.type === "tree") {
-          tableData.value = props.table.treeFormat
-            ? props.table.treeFormat(res.data)
-            : treeFormat(res.data.rows || res.data);
+        if (props.table.type === 'tree') {
+          tableData.value = props.table.treeFormat ? props.table.treeFormat(res.data) : treeFormat(res.data.rows || res.data);
         } else {
           tableData.value = res.data.list;
           total.value = res.data.total;
@@ -177,7 +168,7 @@ const getData = (params = {}) => {
         ElMessage({
           showClose: true,
           message: res.msg,
-          type: "error",
+          type: 'error',
         });
       }
     })
@@ -193,9 +184,9 @@ const toggleAllExpansion = (bool) => {
 };
 
 const defaultProps = {
-  children: "children",
-  label: "name",
-  value: "name",
+  children: 'children',
+  label: 'name',
+  value: 'name',
 };
 
 const handleCurrentChange = () => {
@@ -213,7 +204,7 @@ const handleSizeChange = () => {
 const multipleSelection = ref([]);
 const handleSelectionChange = (val) => {
   multipleSelection.value = val;
-  emits("tableSelectionChange", multipleSelection.value);
+  emits('tableSelectionChange', multipleSelection.value);
 };
 
 const getLabel = (option, item) => {
@@ -222,9 +213,9 @@ const getLabel = (option, item) => {
     for (const element of item.optionLabel) {
       labels.push(option[element]);
     }
-    return labels.join(" - ");
+    return labels.join(' - ');
   }
-  return option[item.optionLabel || "label"];
+  return option[item.optionLabel || 'label'];
 };
 
 if (props.table.url) {
@@ -243,28 +234,26 @@ const cancelClick = () => {
 
 const customColumns = computed(() => columns.value.filter((col) => col.prop));
 const handleRowClick = (row) => {
-  if (!props.table.props || !props.table.props["highlight-current-row"]) return;
+  if (!props.table.props || !props.table.props['highlight-current-row']) return;
   if (currentRow.value === row) {
     tableRef.value.setCurrentRow();
-    currentRow.value = "";
+    currentRow.value = '';
   } else {
     currentRow.value = row;
   }
-  emits("tableCurrentChange", currentRow.value);
+  emits('tableCurrentChange', currentRow.value);
 };
 
 const permissionCheck = (val) => {
   if (Array.isArray(val)) {
-    return val.filter(
-      (item) => item.permission === undefined || item.permission
-    );
+    return val.filter((item) => item.permission === undefined || item.permission);
   } else {
     return val;
   }
 };
 
 const handleSortChange = ({ column, prop, order }) => {
-  const sort = { descending: "desc", ascending: "asc" };
+  const sort = { descending: 'desc', ascending: 'asc' };
   getData({
     order: prop,
     sort: sort[order] || null,
@@ -291,7 +280,7 @@ watch(
   () => dialogInfo.dialogTableVisible,
   (val) => {
     if (!val) {
-      dialogInfo.url = "";
+      dialogInfo.url = '';
     }
   }
 );
@@ -342,61 +331,29 @@ watch(
     </el-drawer>
     <div class="table-header">
       <slot name="toolBar"></slot>
-      <el-button
-        v-for="(btn, index) in toolBarBtn"
-        v-bind="btn.props"
-        @click="btn.click"
-        :class="{ btn: index > 0 }"
-      >
-        <i
-          v-if="btn.icon"
-          :class="['iconfont', 'btn-icon', btn.icon || '']"
-        ></i>
+      <el-button v-for="(btn, index) in toolBarBtn" v-bind="btn.props" @click="btn.click" :class="{ btn: index > 0 }">
+        <i v-if="btn.icon" :class="['iconfont', 'btn-icon', btn.icon || '']"></i>
         {{ btn.label }}
       </el-button>
 
       <el-dropdown style="margin-left: 12px" v-if="moreToolBar.length">
-        <el-button type="primary">
-          更多操作<i
-            class="iconfont icon-xiajiantou"
-            style="margin-left: 5px"
-          ></i>
-        </el-button>
+        <el-button type="primary"> 更多操作<i class="iconfont icon-xiajiantou" style="margin-left: 5px"></i> </el-button>
         <template #dropdown>
           <el-dropdown-menu style="min-width: 90px">
-            <el-dropdown-item
-              v-bind="btn.props"
-              v-for="btn in moreToolBar"
-              @click="btn.click"
-            >
-              <div style="text-align: center;width: 100%;">{{ btn.label }}</div>
+            <el-dropdown-item v-bind="btn.props" v-for="btn in moreToolBar" @click="btn.click">
+              <div style="text-align: center; width: 100%">{{ btn.label }}</div>
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
 
-      <el-icon
-        v-if="searchItem.length > 0"
-        class="search"
-        @click="() => (drawer = true)"
-        ><Guide
-      /></el-icon>
-      <el-dropdown
-        :hide-on-click="false"
-        style="float: right; margin: 7px 10px 0 0"
-      >
+      <el-icon v-if="searchItem.length > 0" class="search" @click="() => (drawer = true)"><Guide /></el-icon>
+      <el-dropdown :hide-on-click="false" style="float: right; margin: 7px 10px 0 0">
         <i class="iconfont icon-a-icondaxiaomobandefuben11-01"></i>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item
-              :key="'drop' + item.prop"
-              v-for="item in customColumns"
-            >
-              <el-checkbox
-                :model-value="item.show"
-                :label="item.label"
-                @change="onChangeShowColumn($event, item.prop)"
-              />
+            <el-dropdown-item :key="'drop' + item.prop" v-for="item in customColumns">
+              <el-checkbox :model-value="item.show" :label="item.label" @change="onChangeShowColumn($event, item.prop)" />
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -415,11 +372,7 @@ watch(
       v-loading="loading"
       row-key="id"
     >
-      <el-table-column
-        v-for="col in showColumns"
-        v-bind="col"
-        :key="'col' + col.prop"
-      >
+      <el-table-column v-for="col in showColumns" v-bind="col" :key="'col' + col.prop">
         <template #default="scope" v-if="col.render">
           <span v-if="col.showLabel" style="margin-right: 8px"
             ><b>{{ col.showLabel(scope.row) }}</b></span
@@ -433,17 +386,11 @@ watch(
             v-bind="com.props"
             >{{ com.label }}
           </component>
-          <span
-            v-if="typeof col.render(scope.row) === 'string'"
-            v-html="col.render(scope.row, scope.$index)"
-          ></span>
+          <span v-if="typeof col.render(scope.row) === 'string'" v-html="col.render(scope.row, scope.$index)"></span>
         </template>
       </el-table-column>
     </el-table>
-    <div
-      v-if="props.table.type !== 'tree' && props.table.type !== 'list'"
-      class="pagination"
-    >
+    <div v-if="props.table.type !== 'tree' && props.table.type !== 'list'" class="pagination">
       <el-pagination
         style="float: right"
         v-model:current-page="currentPage"
@@ -455,15 +402,8 @@ watch(
         @current-change="handleCurrentChange"
       />
     </div>
-    <el-dialog
-      v-model="dialogInfo.dialogTableVisible"
-      :title="dialogInfo.title"
-    >
-      <iframe
-        class="iframe"
-        :style="{ height: dialogInfo.height ? dialogInfo.height + 'px' : '' }"
-        :src="dialogInfo.url"
-      ></iframe>
+    <el-dialog v-model="dialogInfo.dialogTableVisible" :title="dialogInfo.title">
+      <iframe class="iframe" :style="{ height: dialogInfo.height ? dialogInfo.height + 'px' : '' }" :src="dialogInfo.url"></iframe>
     </el-dialog>
   </div>
 </template>
@@ -505,7 +445,7 @@ watch(
   margin-top: 16px;
   width: 100%;
   /* height: calc(100vh - 217px); */
-  height: v-bind("tableHeightCss");
+  height: v-bind('tableHeightCss');
 }
 
 .table-tree {

@@ -1,13 +1,11 @@
-$name-space: "base-"; /* 根据需要自定义命名空间 */
-$element-separator: "__";
-$modifier-separator: "--";
+$name-space: 'base-'; /* 根据需要自定义命名空间 */
+$element-separator: '__';
+$modifier-separator: '--';
 
 @function containsSeparator($selector) {
   $selector: selectorToString($selector);
 
-  @if str-index($selector, $modifier-separator) or
-    str-index($selector, $element-separator)
-  {
+  @if str-index($selector, $modifier-separator) or str-index($selector, $element-separator) {
     @return true;
   } @else {
     @return false;
@@ -32,7 +30,7 @@ $modifier-separator: "--";
   $E: $element !global;
   @if containsSeparator(&) {
     @at-root {
-      & #{"." + $B + $element-separator + $element} {
+      & #{'.' + $B + $element-separator + $element} {
         @content;
       }
     }

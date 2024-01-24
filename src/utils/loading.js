@@ -1,11 +1,11 @@
-import { nextTick } from "vue";
-import "@/styles/loading.scss";
+import { nextTick } from 'vue';
+import '@/styles/loading.scss';
 
 export const loading = {
   show: () => {
     const bodys = document.body;
-    const div = document.createElement("div");
-    div.className = "block-loading";
+    const div = document.createElement('div');
+    div.className = 'block-loading';
     div.innerHTML = `
             <div class="block-loading-box">
                 <div class="block-loading-box-warp">
@@ -26,7 +26,7 @@ export const loading = {
   hide: () => {
     nextTick(() => {
       setTimeout(() => {
-        const el = document.querySelector(".block-loading");
+        const el = document.querySelector('.block-loading');
         el && el.parentNode?.removeChild(el);
       }, 1000);
     });

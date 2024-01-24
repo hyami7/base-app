@@ -1,17 +1,9 @@
 <template>
   <div class="base-navbar">
     <el-tabs v-model="state.activeTabKey">
-      <el-tab-pane
-        :name="item.path"
-        v-for="item in tabsStore.tabs"
-        :key="item.path"
-      >
+      <el-tab-pane :name="item.path" v-for="item in tabsStore.tabs" :key="item.path">
         <template #label>
-          <div
-            class="base-navbar__item"
-            @contextmenu.prevent="onContextmenu(item, $event)"
-            @click="handleTab(item)"
-          >
+          <div class="base-navbar__item" @contextmenu.prevent="onContextmenu(item, $event)" @click="handleTab(item)">
             <span style="margin: 0 20px">
               {{ item.meta.title }}
             </span>
@@ -19,30 +11,26 @@
         </template>
       </el-tab-pane>
     </el-tabs>
-    <Contextmenu
-      ref="contextmenuRef"
-      :items="state.contextmenuItems"
-      @contextmenuItemClick="onContextmenuItem"
-    />
+    <Contextmenu ref="contextmenuRef" :items="state.contextmenuItems" @contextmenuItemClick="onContextmenuItem" />
   </div>
 </template>
 
 <script setup>
-import { nextTick, reactive, ref, watch } from "vue";
-import Contextmenu from "./contextmenu.vue";
-import { useTabsStore } from "@/store/modules/tabs";
-import { useRouter, useRoute } from "vue-router";
+import { nextTick, reactive, ref, watch } from 'vue';
+import Contextmenu from './contextmenu.vue';
+import { useTabsStore } from '@/store/modules/tabs';
+import { useRouter, useRoute } from 'vue-router';
 const tabsStore = useTabsStore();
 const route = useRoute();
 const router = useRouter();
 const contextmenuRef = ref(null);
 const state = reactive({
   contextmenuItems: [
-    { name: "refresh", label: "重新加载", icon: "fa fa-refresh" },
-    { name: "close", label: "关闭标签", icon: "fa fa-times" },
-    { name: "closeOther", label: "关闭其他标签", icon: "fa fa-minus" },
+    { name: 'refresh', label: '重新加载', icon: 'fa fa-refresh' },
+    { name: 'close', label: '关闭标签', icon: 'fa fa-times' },
+    { name: 'closeOther', label: '关闭其他标签', icon: 'fa fa-minus' },
   ],
-  activeTabKey: "",
+  activeTabKey: '',
 });
 
 const handleTab = (menu) => {
@@ -53,20 +41,20 @@ const onContextmenuItem = async (item) => {
   const { name, menu } = item;
   if (!menu) return;
   switch (name) {
-    case "refresh":
+    case 'refresh':
       refreshTab(menu);
       break;
-    case "close":
+    case 'close':
       closeCheckTab(menu);
       break;
-    case "closeOther":
+    case 'closeOther':
       closeOtherTab(menu);
       break;
   }
 };
 
 const refreshTab = async (menu) => {
-  tabsStore.refreshTab(menu)
+  tabsStore.refreshTab(menu);
 };
 
 const closeCheckTab = (menu) => {
@@ -84,7 +72,7 @@ const closeCheckTab = (menu) => {
   } else {
     tabsStore.setTabs(tabsStore.tabs.filter((x) => x.name !== menu.name));
   }
-  router.push(state.activeTabKey)
+  router.push(state.activeTabKey);
 };
 
 const closeOtherTab = (menu) => {
@@ -97,13 +85,12 @@ const closeOtherTab = (menu) => {
       state.activeTabKey = menu.path;
     }
   }
-  router.push(state.activeTabKey)
+  router.push(state.activeTabKey);
 };
 
 const onContextmenu = (menu, el) => {
-  state.contextmenuItems[1].disabled = state.contextmenuItems[2].disabled =
-    tabsStore.tabs.length === 1;
-  if (menu.name === "index") {
+  state.contextmenuItems[1].disabled = state.contextmenuItems[2].disabled = tabsStore.tabs.length === 1;
+  if (menu.name === 'index') {
     state.contextmenuItems[1].disabled = true;
   }
   const { clientX, clientY } = el;
@@ -138,10 +125,20 @@ watch(
   }
 
   :deep(.sk-tabs) {
+    .is-active.sk-tabs__item {
+      color: var(--base-main-color);
+    }
+    .sk-tabs__item {
+      color: var(--base-default-fcolor);
+      font-weight: 400;
+    }
     .sk-tabs__item,
     .sk-tabs__header {
       padding: 0;
       margin: 0;
+    }
+    .sk-tabs__nav-wrap::after {
+      height: 0;
     }
   }
 }

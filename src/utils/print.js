@@ -3,11 +3,11 @@ const Print = function (dom, options) {
   if (!(this instanceof Print)) return new Print(dom, options);
   this.options = this.extend(
     {
-      noPrint: ".no-print",
+      noPrint: '.no-print',
     },
     options
   );
-  if (typeof dom === "string") {
+  if (typeof dom === 'string') {
     this.dom = document.querySelector(dom);
   } else {
     this.isDOM(dom);
@@ -28,52 +28,47 @@ Print.prototype = {
     return obj;
   },
   getStyle: function () {
-    var str = "",
-      styles = document.querySelectorAll("style,link");
+    var str = '',
+      styles = document.querySelectorAll('style,link');
     for (var i = 0; i < styles.length; i++) {
       str += styles[i].outerHTML;
     }
-    str +=
-      "<style>html{height: auto !important;overflow: auto !important;}</style>";
-    str +=
-      "<style>#XMLContent{height: auto !important;position:relative !important}</style>";
-    str +=
-      "<style>" +
-      (this.options.noPrint ? this.options.noPrint : ".no-print") +
-      "{display:none;}</style>";
+    str += '<style>html{height: auto !important;overflow: auto !important;}</style>';
+    str += '<style>#XMLContent{height: auto !important;position:relative !important}</style>';
+    str += '<style>' + (this.options.noPrint ? this.options.noPrint : '.no-print') + '{display:none;}</style>';
     return str;
   },
   getHtml: function () {
-    var inputs = document.querySelectorAll("input");
-    var textareas = document.querySelectorAll("textarea");
-    var selects = document.querySelectorAll("select");
+    var inputs = document.querySelectorAll('input');
+    var textareas = document.querySelectorAll('textarea');
+    var selects = document.querySelectorAll('select');
     for (var k = 0; k < inputs.length; k++) {
-      if (inputs[k].type == "checkbox" || inputs[k].type == "radio") {
+      if (inputs[k].type == 'checkbox' || inputs[k].type == 'radio') {
         if (inputs[k].checked == true) {
-          inputs[k].setAttribute("checked", "checked");
+          inputs[k].setAttribute('checked', 'checked');
         } else {
-          inputs[k].removeAttribute("checked");
+          inputs[k].removeAttribute('checked');
         }
-      } else if (inputs[k].type == "text") {
-        inputs[k].setAttribute("value", inputs[k].value);
+      } else if (inputs[k].type == 'text') {
+        inputs[k].setAttribute('value', inputs[k].value);
       } else {
-        inputs[k].setAttribute("value", inputs[k].value);
+        inputs[k].setAttribute('value', inputs[k].value);
       }
     }
     for (var k2 = 0; k2 < textareas.length; k2++) {
-      if (textareas[k2].type == "textarea") {
+      if (textareas[k2].type == 'textarea') {
         textareas[k2].innerHTML = textareas[k2].value;
       }
     }
     for (var k3 = 0; k3 < selects.length; k3++) {
-      if (selects[k3].type == "select-one") {
+      if (selects[k3].type == 'select-one') {
         var child = selects[k3].children;
         for (var i in child) {
-          if (child[i].tagName == "OPTION") {
+          if (child[i].tagName == 'OPTION') {
             if (child[i].selected == true) {
-              child[i].setAttribute("selected", "selected");
+              child[i].setAttribute('selected', 'selected');
             } else {
-              child[i].removeAttribute("selected");
+              child[i].removeAttribute('selected');
             }
           }
         }
@@ -84,14 +79,11 @@ Print.prototype = {
   writeIframe: function (content) {
     var w,
       doc,
-      iframe = document.createElement("iframe"),
+      iframe = document.createElement('iframe'),
       f = document.body.appendChild(iframe);
 
-    iframe.id = "myIframe";
-    iframe.setAttribute(
-      "style",
-      "position:absolute;width:0;height:0;top:-10px;left:-10px;"
-    );
+    iframe.id = 'myIframe';
+    iframe.setAttribute('style', 'position:absolute;width:0;height:0;top:-10px;left:-10px;');
 
     w = f.contentWindow || f.contentDocument;
 
@@ -118,7 +110,7 @@ Print.prototype = {
       setTimeout(function () {
         frameWindow.focus();
         try {
-          if (!frameWindow.document.execCommand("print", false, null)) {
+          if (!frameWindow.document.execCommand('print', false, null)) {
             frameWindow.print();
           }
         } catch (e) {
@@ -127,21 +119,16 @@ Print.prototype = {
         frameWindow.close();
       }, 10);
     } catch (err) {
-      console.log("err", err);
+      console.log('err', err);
     }
   },
   isDOM:
-    typeof HTMLElement === "object"
+    typeof HTMLElement === 'object'
       ? function (obj) {
           return obj instanceof HTMLElement;
         }
       : function (obj) {
-          return (
-            obj &&
-            typeof obj === "object" &&
-            obj.nodeType === 1 &&
-            typeof obj.nodeName === "string"
-          );
+          return obj && typeof obj === 'object' && obj.nodeType === 1 && typeof obj.nodeName === 'string';
         },
 };
 export default Print;

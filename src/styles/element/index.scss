@@ -2,4 +2,12 @@
   $namespace: 'sk'
 );
 
-@import "element-plus/theme-chalk/src/index.scss";
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'primary': (
+      'base': #08366a,
+    ),
+  )
+);
+
+@import 'element-plus/theme-chalk/src/index.scss';

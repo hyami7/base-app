@@ -1,8 +1,8 @@
 <template>
   <el-menu
-    active-text-color="var(--side-active-font-color)"
-    background-color="var(--side-bg-color)"
-    text-color="var(--side-font-color)"
+    active-text-color="var(--base-side-active-fcolor)"
+    background-color="var(--base-side-bg)"
+    text-color="var(--base-side-fcolor)"
     router
     :collapse="userStore.isCollapse"
     popper-effect="dark"
@@ -15,11 +15,11 @@
 </template>
 
 <script setup>
-import MenuTree from "./menuTree";
-import { useUserStore } from "@/store/modules/user";
-import { useTabsStore } from "@/store/modules/tabs";
-import { computed, nextTick, reactive } from "vue";
-import cloneDeep from "lodash-es/cloneDeep";
+import MenuTree from './menuTree';
+import { useUserStore } from '@/store/modules/user';
+import { useTabsStore } from '@/store/modules/tabs';
+import { computed, nextTick, reactive } from 'vue';
+import cloneDeep from 'lodash-es/cloneDeep';
 
 const tabsStore = useTabsStore();
 const userStore = useUserStore();
@@ -32,10 +32,7 @@ const handleSearchMenus = (arr, keyword) => {
   return arr.filter((m) => {
     m.meta.active = false;
     if (m.meta.title && m.meta.title.includes(keyword)) {
-      m.meta.search = m.meta.title.replaceAll(
-        keyword,
-        `<span style="color:red;font-weight: bold;">${keyword}</span>`
-      );
+      m.meta.search = m.meta.title.replaceAll(keyword, `<span style="color:red;font-weight: bold;">${keyword}</span>`);
       if (m.meta.search) {
         m.meta.active = true;
       }
@@ -80,7 +77,7 @@ const menus = computed(() => {
   border: none;
 }
 .sk-menu:not(.sk-menu--collapse) {
-  width: 200px;
+  width: var(--base-side-width);
   min-height: 400px;
 }
 </style>

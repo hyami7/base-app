@@ -1,12 +1,52 @@
-.sk-form-item {
-  margin-bottom: 20px;
+// 修改 element css 变量
+:root {
+  // 修改menu item高度
+  // --sk-menu-item-height: 40px;
 }
 
+// 菜单背景色
 .sk-menu-item.is-active {
-  color: #ffffff !important;
-  background-color: var(--custom-color) !important;
+  background: var(--base-side-active-bg) !important;
+}
+.sk-menu-item.is-active:hover {
+  color: var(--base-side-fcolor);
 }
 
 .sk-menu-item:hover {
-  background-color: var(--custom-hover-color) !important ;
+  background: var(--base-side-hover-bg) !important ;
 }
+
+// 图标
+.sk-sub-menu .icon,
+.sk-menu-item .icon {
+  font-size: 18px;
+  vertical-align: middle;
+  margin-right: 5px;
+  width: 24px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+// 缩小时二级菜单背景色
+.sk-menu--popup {
+  background: var(--base-side-bg);
+}
+
+// 后续修改menu item样式
+// .sk-menu-item,
+// .sk-sub-menu__title,
+// .sk-sub-menu .sk-menu-item {
+// border-radius: 2px;
+// margin: 4px 12px;
+// position: relative;
+// }
+// .sk-sub-menu__title {
+// --sk-menu-base-level-padding: 20px;
+// }
+// .sk-menu {
+// user-select: none;
+// }
+
+// .sk-form-item {
+// margin-bottom: 20px;
+// }

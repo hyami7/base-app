@@ -6,8 +6,8 @@
 </template>
 
 <script setup>
-import { useUserStore } from "@/store/modules/user";
-import { computed } from "vue";
+import { useUserStore } from '@/store/modules/user';
+import { computed } from 'vue';
 const userStore = useUserStore();
 
 const collapseIcon = computed(() => {

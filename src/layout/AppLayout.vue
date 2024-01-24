@@ -1,20 +1,20 @@
 <script setup>
-import appMenu from "./components/menu/appMenu";
-import toggleSideBar from "./components/menu/toggleSideBar";
-import fullScreen from "./components/header/fullScreen";
-import setting from "./components/header/setting";
-import userInfo from "./components/header/userInfo";
-import message from "./components/header/message";
-import { useUserStore } from "@/store/modules/user";
-import { useTabsStore } from "@/store/modules/tabs";
-import { useRouter } from "vue-router";
-import { handleAdminRoute, getFirstRoute, routePush } from "@/utils/router";
-import { ref, onMounted } from "vue";
-import tabs from "./components/tabs/tab";
-import mainView from "./components/mainView";
-import { initWaterMark } from "@/utils/watermark";
-import { qiankunWindow } from "vite-plugin-qiankun/dist/helper";
-const isQiankun = qiankunWindow.__POWERED_BY_QIANKUN__
+import appMenu from './components/menu/appMenu';
+import toggleSideBar from './components/menu/toggleSideBar';
+import fullScreen from './components/header/fullScreen';
+import setting from './components/header/setting';
+import userInfo from './components/header/userInfo';
+import message from './components/header/message';
+import { useUserStore } from '@/store/modules/user';
+import { useTabsStore } from '@/store/modules/tabs';
+import { useRouter } from 'vue-router';
+import { handleAdminRoute, getFirstRoute, routePush } from '@/utils/router';
+import { ref, onMounted } from 'vue';
+import tabs from './components/tabs/tab';
+import mainView from './components/mainView';
+import { initWaterMark } from '@/utils/watermark';
+import { qiankunWindow } from 'vite-plugin-qiankun/dist/helper';
+const isQiankun = qiankunWindow.__POWERED_BY_QIANKUN__;
 
 const userStore = useUserStore();
 const tabsStore = useTabsStore();
@@ -71,14 +71,13 @@ onMounted(() => {
       </div>
     </el-header>
     <el-container>
-      <el-aside class="base-layout__aside" width="200px" v-if="!isQiankun">
-        <el-scrollbar style="height: calc(100vh - var(--base-header-height))">
+      <el-aside class="base-layout__aside" width="var(--base-side-width)" v-if="!isQiankun">
+        <el-scrollbar style="height: calc(100vh - var(--base-header-height) - var(--base-side-collapse-height))">
           <appMenu class="base-layout__aside--menu" />
-
-          <div class="base-layout__aside--collapse">
-            <toggleSideBar />
-          </div>
         </el-scrollbar>
+        <div class="base-layout__aside--collapse">
+          <toggleSideBar />
+        </div>
       </el-aside>
       <el-main>
         <tabs v-if="!isQiankun" />
@@ -96,14 +95,16 @@ onMounted(() => {
   @include e(header) {
     display: flex;
     align-items: center;
-    background-color: #b3c0d1;
+    background-color: var(--base-header-bg);
     justify-content: space-between;
     padding: 0;
+    height: var(--base-header-height);
+    border-bottom: 1px solid var(--sk-color-info-light-8);
 
     @include m(logo) {
       display: flex;
       align-items: center;
-      width: 200px;
+      width: var(--base-side-width);
       height: 100%;
 
       img {
@@ -136,26 +137,22 @@ onMounted(() => {
     overflow: hidden;
     position: relative;
     width: auto;
-    background-color: var(--side-bg-color);
+    background: var(--base-side-bg);
 
     @include m(menu) {
-      height: calc(100% - 40px);
-      padding-bottom: 40px;
+      height: 100%;
     }
 
     @include m(collapse) {
       cursor: pointer;
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      height: 40px;
+      height: var(--base-side-collapse-height);
       display: flex;
       align-items: center;
       justify-content: center;
       width: 100%;
       font-size: 18px;
       color: #fff;
-      background-color: var(--side-bg-color);
+      background: transparent;
 
       i {
         width: 100%;

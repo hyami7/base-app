@@ -1,10 +1,10 @@
 // router.js
-import { createRouter, createWebHashHistory } from "vue-router";
-import nprogress from "nprogress";
-import "nprogress/nprogress.css";
-import { staticRoutes } from "@/router/static";
-import { useUserStore } from "@/store/modules/user";
-import { loading } from "@/utils/loading";
+import { createRouter, createWebHashHistory } from 'vue-router';
+import nprogress from 'nprogress';
+import 'nprogress/nprogress.css';
+import { staticRoutes } from '@/router/static';
+import { useUserStore } from '@/store/modules/user';
+import { loading } from '@/utils/loading';
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -19,9 +19,9 @@ router.beforeEach((to, from, next) => {
   }
 
   const userStore = useUserStore();
-  if (!userStore.user && to.name != "login") {
+  if (!userStore.user && to.name != 'login') {
     next({
-      path: "/login",
+      path: '/login',
       query: { redirect: to.fullPath },
     });
     return;

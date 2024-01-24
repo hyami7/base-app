@@ -1,28 +1,12 @@
 <template>
-  <el-popover
-    :placement="placement"
-    trigger="focus"
-    :hide-after="0"
-    :width="state.selectorWidth"
-    :visible="state.popoverVisible"
-  >
-    <div
-      @mouseover.stop="state.iconSelectorMouseover = true"
-      @mouseout.stop="state.iconSelectorMouseover = false"
-      class="icon-selector"
-    >
+  <el-popover :placement="placement" trigger="focus" :hide-after="0" :width="state.selectorWidth" :visible="state.popoverVisible">
+    <div @mouseover.stop="state.iconSelectorMouseover = true" @mouseout.stop="state.iconSelectorMouseover = false" class="icon-selector">
       <transition name="el-zoom-in-center">
         <div class="icon-selector-box">
           <div class="selector-body">
             <el-scrollbar ref="selectorScrollbarRef">
               <div v-if="renderFontIconNames.length > 0">
-                <div
-                  class="icon-selector-item"
-                  :title="item"
-                  @click="onIcon(item)"
-                  v-for="(item, key) in renderFontIconNames"
-                  :key="key"
-                >
+                <div class="icon-selector-item" :title="item" @click="onIcon(item)" v-for="(item, key) in renderFontIconNames" :key="key">
                   <i :class="'fa ' + item" />
                 </div>
               </div>
@@ -57,20 +41,20 @@
 </template>
 
 <script setup>
-import { Delete } from "@element-plus/icons-vue";
-import { reactive, ref, onMounted, nextTick, watch, computed } from "vue";
+import { Delete } from '@element-plus/icons-vue';
+import { reactive, ref, onMounted, nextTick, watch, computed } from 'vue';
 
 const props = defineProps({
-  size: "default",
+  size: 'default',
   disabled: false,
-  title: "",
-  type: "awe",
-  placement: "bottom",
-  modelValue: "",
+  title: '',
+  type: 'awe',
+  placement: 'bottom',
+  modelValue: '',
   showIconName: false,
 });
 
-const emits = defineEmits(["change", "update:modelValue"]);
+const emits = defineEmits(['change', 'update:modelValue']);
 
 const selectorInput = ref();
 const selectorScrollbarRef = ref();
@@ -81,9 +65,9 @@ const state = reactive({
   inputFocus: false,
   iconSelectorMouseover: false,
   fontIconNames: [],
-  inputValue: "",
+  inputValue: '',
   prependIcon: props.modelValue,
-  defaultModelValue: props.modelValue || "el-icon-Minus",
+  defaultModelValue: props.modelValue || 'el-icon-Minus',
   iconKey: 0, // 给icon标签准备个key，以随时使用 h 函数重新生成元素
 });
 
@@ -97,22 +81,22 @@ const onInputBlur = () => {
 const onInputRefresh = () => {
   state.iconKey++;
   state.prependIcon = state.defaultModelValue;
-  state.inputValue = "";
-  emits("update:modelValue", state.defaultModelValue);
-  emits("change", state.defaultModelValue);
+  state.inputValue = '';
+  emits('update:modelValue', state.defaultModelValue);
+  emits('change', state.defaultModelValue);
 };
 // 删除
 const onInputDelete = () => {
   state.iconKey++;
   state.prependIcon = null;
-  emits("change", null);
+  emits('change', null);
 };
 const onChangeTab = (name) => {
   state.iconType = name;
   state.fontIconNames = [];
-  if (name == "awe") {
+  if (name == 'awe') {
     getAwesomeIconfontNames().then((res) => {
-      state.fontIconNames = res.map((name) => "fa " + name);
+      state.fontIconNames = res.map((name) => 'fa ' + name);
     });
   }
 };
@@ -120,9 +104,9 @@ const onIcon = (icon) => {
   state.iconSelectorMouseover = state.popoverVisible = false;
   state.iconKey++;
   state.prependIcon = icon;
-  state.inputValue = "";
-  emits("update:modelValue", icon);
-  emits("change", icon);
+  state.inputValue = '';
+  emits('update:modelValue', icon);
+  emits('change', icon);
   nextTick(() => {
     selectorInput.value.blur();
   });
@@ -142,10 +126,7 @@ const renderFontIconNames = computed(() => {
 // 获取 input 的宽度
 const getInputWidth = () => {
   nextTick(() => {
-    state.selectorWidth =
-      selectorInput.value.$el.offsetWidth < 260
-        ? 260
-        : selectorInput.value.$el.offsetWidth;
+    state.selectorWidth = selectorInput.value.$el.offsetWidth < 260 ? 260 : selectorInput.value.$el.offsetWidth;
   });
 };
 
@@ -168,29 +149,17 @@ function getAwesomeIconfontNames() {
   return new Promise((resolve, reject) => {
     nextTick(() => {
       const iconfonts = [];
-      let cssUrl =
-        import.meta.env.VITE_AXIOS_BASE_URL + "/fontAwesome/font-awesome.min.css";
+      let cssUrl = import.meta.env.VITE_AXIOS_BASE_URL + '/fontAwesome/font-awesome.min.css';
       const sheets = getStylesFromDomain(cssUrl);
       for (const key in sheets) {
         const rules = sheets[key].cssRules;
         for (const k in rules) {
-          if (
-            rules[k].selectorText &&
-            /^\.fa-(.*)::before$/g.test(rules[k].selectorText)
-          ) {
-            if (rules[k].selectorText.indexOf(", ") > -1) {
-              const iconNames = rules[k].selectorText.split(", ");
-              iconfonts.push(
-                iconNames[0]
-                  .substring(1, iconNames[0].length)
-                  .replace(/\:\:before/, "")
-              );
+          if (rules[k].selectorText && /^\.fa-(.*)::before$/g.test(rules[k].selectorText)) {
+            if (rules[k].selectorText.indexOf(', ') > -1) {
+              const iconNames = rules[k].selectorText.split(', ');
+              iconfonts.push(iconNames[0].substring(1, iconNames[0].length).replace(/\:\:before/, ''));
             } else {
-              iconfonts.push(
-                rules[k].selectorText
-                  .substring(1, rules[k].selectorText.length)
-                  .replace(/\:\:before/, "")
-              );
+              iconfonts.push(rules[k].selectorText.substring(1, rules[k].selectorText.length).replace(/\:\:before/, ''));
             }
           }
         }
@@ -199,7 +168,7 @@ function getAwesomeIconfontNames() {
       if (iconfonts.length > 0) {
         resolve([...new Set(iconfonts)]);
       } else {
-        reject("No AwesomeIcon style sheet");
+        reject('No AwesomeIcon style sheet');
       }
     });
   });
@@ -209,9 +178,8 @@ watch(
   () => props.modelValue,
   () => {
     state.iconKey++;
-    if (props.modelValue != state.prependIcon)
-      state.defaultModelValue = props.modelValue;
-    if (props.modelValue == "") state.defaultModelValue = "el-icon-Minus";
+    if (props.modelValue != state.prependIcon) state.defaultModelValue = props.modelValue;
+    if (props.modelValue == '') state.defaultModelValue = 'el-icon-Minus';
     state.prependIcon = props.modelValue;
   }
 );

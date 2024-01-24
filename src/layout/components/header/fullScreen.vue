@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import { useFullscreen } from "@vueuse/core";
+import { useFullscreen } from '@vueuse/core';
 
 const props = defineProps({
   target: HTMLElement,
