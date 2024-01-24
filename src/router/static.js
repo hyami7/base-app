@@ -1,6 +1,6 @@
-import { qiankunWindow } from 'vite-plugin-qiankun/dist/helper'
+import { qiankunWindow } from 'vite-plugin-qiankun/dist/helper';
 
-const pathPrefix = qiankunWindow.__POWERED_BY_QIANKUN__ ? '/base-app' : ''
+const pathPrefix = qiankunWindow.__POWERED_BY_QIANKUN__ ? '/base-app' : '';
 /*
  * 后台基础静态路由
  */
@@ -18,7 +18,7 @@ const baseRoute = {
       },
     },
   ],
-}
+};
 
 /*
  * 静态路由
@@ -36,6 +36,6 @@ const staticRoutes = [
     path: pathPrefix + '/:path(.*)*',
     redirect: pathPrefix + '/admin/dashboard/index',
   },
-]
-staticRoutes.push(baseRoute)
-export { staticRoutes, baseRoute }
+];
+staticRoutes.push(baseRoute);
+export { staticRoutes, baseRoute };

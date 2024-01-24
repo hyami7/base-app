@@ -1,38 +1,55 @@
 :root {
   // 主题字体颜色
-  --content-font-color: #303133;
+  --base-main-fcolor: #181818;
   // 主题字体颜色 微浅
-  --content-font-info-color: #606266;
-  // 默认按钮颜色
-  --default-button-color: #79bbff;
+  --base-default-fcolor: #999999;
+  // 背景底色
+  --base-default-bg: #f5f5f5;
+  // 默认边距
+  --base-padding-16: 16px;
+
+  // 主题色
+  --base-main-color: #08366a;
+
   // 主题边框颜色
-  --border-color: #dcdfe6;
-  // 侧边栏背景色
-  --side-bg-color: #001529;
-  // 侧边栏选中字体颜色
-  --side-active-font-color: #79bbff;
-  // 侧边栏字体颜色
-  --side-font-color: #ffffff;
-  // 侧边栏选中背景色
-  --custom-color: rgb(24, 144, 255);
-  --custom-hover-color: rgb(24, 144, 255, 0.3);
-  // 重置ele菜单选中颜色
-  --active-color: var(--custom-color);
+  --base-border-color: #dcdfe6;
 
   // 头部导航栏高度
-  --base-header-height: 60px;
+  --base-header-height: 56px;
+  // 头部背景色
+  --base-header-bg: #ffffff;
+
   // tab高度
   --base-tab-height: 40px;
+
+  // 侧边栏宽度
+  --base-side-width: 220px;
+  // 侧边栏背景色
+  --base-side-bg: linear-gradient(101deg, #184c80 0%, #042952 13%, #052f5c 31%, #174a7d 52%, #1c5590 69%, #052e5c 100%);
+  // 侧边栏选中字体颜色
+  --base-side-active-fcolor: var(--base-main-color);
+  // 侧边栏字体颜色
+  --base-side-fcolor: #ffffff;
+  // 侧边栏选中背景色
+  --base-side-active-bg: #ffffff;
+  --base-side-hover-bg: rgba(246, 248, 251, 0.16);
+
+  // collapse height
+  --base-side-collapse-height: 40px;
 }
 
 .flex {
-  display: flex
+  display: flex;
+}
+
+.flex-align-center {
+  @extend .flex;
+  align-items: center;
 }
 
 .flex-center {
-  @extend .flex;
+  @extend .flex-align-center;
   justify-content: center;
-  align-items: center;
 }
 
 .flex-between {

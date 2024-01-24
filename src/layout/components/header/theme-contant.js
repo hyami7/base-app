@@ -11,7 +11,7 @@ export const themeStyle = [
     label: '暗黑模式',
     value: 'realDark',
   },
-]
+];
 
 /** 主题色 */
 export const themeColors = [
@@ -55,7 +55,7 @@ export const themeColors = [
     key: 'purple',
     value: 'rgb(114, 46, 209)',
   },
-]
+];
 
 /** 导航模式（布局方式） */
 export const layouts = [
@@ -67,4 +67,4 @@ export const layouts = [
     label: '顶部菜单布局',
     value: 'topmenu',
   },
-]
+];

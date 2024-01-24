@@ -1,9 +1,9 @@
-import { defineStore } from 'pinia'
-import { store } from '@/store/index'
-import { Local } from '@/utils/storage'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import router from '@/router/index'
-import { TAB_STORE } from '@/utils/constants'
+import { defineStore } from 'pinia';
+import { store } from '@/store/index';
+import { Local } from '@/utils/storage';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import router from '@/router/index';
+import { TAB_STORE } from '@/utils/constants';
 
 const state = {
   // tab
@@ -17,7 +17,7 @@ const state = {
   // keepalive
   activeKey: '',
   keepaliveList: [],
-}
+};
 
 export const useTabsStore = defineStore({
   id: 'tabs',
@@ -26,38 +26,38 @@ export const useTabsStore = defineStore({
   actions: {
     // tab
     setTabs(tabs) {
-      this.tabs = tabs
+      this.tabs = tabs;
       // 关闭tab时清除keepalive
-      this.setKeepaliveList(tabs.map((x) => x.name))
+      this.setKeepaliveList(tabs.map((x) => x.name));
     },
     addTabs(tab) {
-      const target = this.tabs.find((item) => item.name === tab.name)
-      if (target) return
-      this.tabs.push(tab)
+      const target = this.tabs.find((item) => item.name === tab.name);
+      if (target) return;
+      this.tabs.push(tab);
     },
     setRouteViews(menus) {
-      this.routeViews = menus
+      this.routeViews = menus;
     },
 
     // 菜单搜索
     setSearchMenuText(val) {
-      this.searchMenuText = val
+      this.searchMenuText = val;
     },
     setIsSearchMenu(bool) {
-      this.isSearchMenu = bool
+      this.isSearchMenu = bool;
     },
 
     // keepalive
     setActiveKey(path) {
-      this.activeKey = path
+      this.activeKey = path;
     },
     addKeepaliveList(menu) {
-      const target = this.keepaliveList.find((x) => x === menu.name)
-      if (target) return
-      this.keepaliveList.push(menu.name)
+      const target = this.keepaliveList.find((x) => x === menu.name);
+      if (target) return;
+      this.keepaliveList.push(menu.name);
     },
     setKeepaliveList(list) {
-      this.keepaliveList = list
+      this.keepaliveList = list;
     },
 
     /**
@@ -68,24 +68,24 @@ export const useTabsStore = defineStore({
      * tabs 数据清空则取第一个
      */
     closeTab(route) {
-      route = route || router.currentRoute?.value || {}
-      let mIndex = 0
+      route = route || router.currentRoute?.value || {};
+      let mIndex = 0;
       const newTabs = this.tabs.filter((x, i) => {
         if (x.name === route.name) {
-          mIndex = i
-          return false
+          mIndex = i;
+          return false;
         }
-        return true
-      })
-      this.setTabs(newTabs)
+        return true;
+      });
+      this.setTabs(newTabs);
       if (this.tabs.length >= 1) {
         if (mIndex > 0) {
-          router.push(this.tabs[mIndex - 1])
+          router.push(this.tabs[mIndex - 1]);
         } else {
-          router.push(this.tabs[mIndex])
+          router.push(this.tabs[mIndex]);
         }
       } else {
-        router.push(this.tabs[0])
+        router.push(this.tabs[0]);
       }
     },
 
@@ -95,20 +95,20 @@ export const useTabsStore = defineStore({
      * 先去掉 keepalive 数组项与 activeKey 再还原
      */
     async refreshTab(route) {
-      route = route || router.currentRoute?.value || {}
-      this.setKeepaliveList(this.keepaliveList.filter((x) => x !== route.name))
-      this.setActiveKey('')
-      await router.push(route)
-      this.setActiveKey(route.path)
-      this.addKeepaliveList(route)
+      route = route || router.currentRoute?.value || {};
+      this.setKeepaliveList(this.keepaliveList.filter((x) => x !== route.name));
+      this.setActiveKey('');
+      await router.push(route);
+      this.setActiveKey(route.path);
+      this.addKeepaliveList(route);
     },
   },
   persist: {
     key: TAB_STORE,
   },
-})
+});
 
 // 在组件setup函数外使用
 export function useTabsStoreWithOut() {
-  return useTabsStore(store)
+  return useTabsStore(store);
 }

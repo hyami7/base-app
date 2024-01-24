@@ -601,4 +601,4 @@ export const loginData = {
     superAdmin: false,
   },
   token: 'a33193ad-9f02-472d-a694-95eacc4df31b',
-}
+};

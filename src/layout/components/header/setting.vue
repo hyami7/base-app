@@ -46,12 +46,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { themeStyle, themeColors, layouts } from './theme-contant.js'
-let showDrawer = ref(false)
-const defaultColor = document.documentElement.style.getPropertyValue('--custom-color')
-const customColor = ref(defaultColor)
-const setNavTheme = () => {}
+import { ref } from 'vue';
+import { themeStyle, themeColors, layouts } from './theme-contant.js';
+let showDrawer = ref(false);
+const defaultColor = document.documentElement.style.getPropertyValue('--base-side-active-bg');
+const customColor = ref(defaultColor);
+const setNavTheme = () => {};
 </script>
 
 <style lang="scss" scoped>

@@ -16,14 +16,14 @@
 </template>
 
 <script setup>
-import { nextTick, reactive, ref, watch } from 'vue'
-import Contextmenu from './contextmenu.vue'
-import { useTabsStore } from '@/store/modules/tabs'
-import { useRouter, useRoute } from 'vue-router'
-const tabsStore = useTabsStore()
-const route = useRoute()
-const router = useRouter()
-const contextmenuRef = ref(null)
+import { nextTick, reactive, ref, watch } from 'vue';
+import Contextmenu from './contextmenu.vue';
+import { useTabsStore } from '@/store/modules/tabs';
+import { useRouter, useRoute } from 'vue-router';
+const tabsStore = useTabsStore();
+const route = useRoute();
+const router = useRouter();
+const contextmenuRef = ref(null);
 const state = reactive({
   contextmenuItems: [
     { name: 'refresh', label: '重新加载', icon: 'fa fa-refresh' },
@@ -31,90 +31,90 @@ const state = reactive({
     { name: 'closeOther', label: '关闭其他标签', icon: 'fa fa-minus' },
   ],
   activeTabKey: '',
-})
+});
 
 const handleTab = (menu) => {
-  router.push(menu.path)
-}
+  router.push(menu.path);
+};
 
 const onContextmenuItem = async (item) => {
-  const { name, menu } = item
-  if (!menu) return
+  const { name, menu } = item;
+  if (!menu) return;
   switch (name) {
     case 'refresh':
-      refreshTab(menu)
-      break
+      refreshTab(menu);
+      break;
     case 'close':
-      closeCheckTab(menu)
-      break
+      closeCheckTab(menu);
+      break;
     case 'closeOther':
-      closeOtherTab(menu)
-      break
+      closeOtherTab(menu);
+      break;
   }
-}
+};
 
 const refreshTab = async (menu) => {
-  tabsStore.refreshTab(menu)
-}
+  tabsStore.refreshTab(menu);
+};
 
 const closeCheckTab = (menu) => {
   if (menu.path === state.activeTabKey) {
     // 获得当前tab索引
-    const mIndex = tabsStore.tabs.findIndex((x) => x.name === menu.name)
+    const mIndex = tabsStore.tabs.findIndex((x) => x.name === menu.name);
     // 删除当前tab
-    tabsStore.setTabs(tabsStore.tabs.filter((x) => x.name !== menu.name))
+    tabsStore.setTabs(tabsStore.tabs.filter((x) => x.name !== menu.name));
     // 如果剩下tab大于1则设置选中tab为上一个 否则设置为第一个
     if (tabsStore.tabs.length > 1 && mIndex > 0) {
-      state.activeTabKey = tabsStore.tabs[mIndex - 1].path
+      state.activeTabKey = tabsStore.tabs[mIndex - 1].path;
     } else {
-      state.activeTabKey = tabsStore.tabs[0].path
+      state.activeTabKey = tabsStore.tabs[0].path;
     }
   } else {
-    tabsStore.setTabs(tabsStore.tabs.filter((x) => x.name !== menu.name))
+    tabsStore.setTabs(tabsStore.tabs.filter((x) => x.name !== menu.name));
   }
-  router.push(state.activeTabKey)
-}
+  router.push(state.activeTabKey);
+};
 
 const closeOtherTab = (menu) => {
-  const current = tabsStore.tabs.find((x) => x.name === menu.name)
+  const current = tabsStore.tabs.find((x) => x.name === menu.name);
   if (current) {
     // 清空其他菜单
-    tabsStore.setTabs([current])
+    tabsStore.setTabs([current]);
     // 判断选择的是否是当前tab
     if (menu.path !== state.activeTabKey) {
-      state.activeTabKey = menu.path
+      state.activeTabKey = menu.path;
     }
   }
-  router.push(state.activeTabKey)
-}
+  router.push(state.activeTabKey);
+};
 
 const onContextmenu = (menu, el) => {
-  state.contextmenuItems[1].disabled = state.contextmenuItems[2].disabled = tabsStore.tabs.length === 1
+  state.contextmenuItems[1].disabled = state.contextmenuItems[2].disabled = tabsStore.tabs.length === 1;
   if (menu.name === 'index') {
-    state.contextmenuItems[1].disabled = true
+    state.contextmenuItems[1].disabled = true;
   }
-  const { clientX, clientY } = el
+  const { clientX, clientY } = el;
   contextmenuRef.value.onShowContextmenu(menu, {
     x: clientX,
     y: clientY,
-  })
-}
+  });
+};
 
 const setTabByRoute = () => {
-  const target = tabsStore.routeViews.find((item) => item.name === route.name)
+  const target = tabsStore.routeViews.find((item) => item.name === route.name);
   if (target) {
-    tabsStore.addTabs(target)
+    tabsStore.addTabs(target);
   }
-}
+};
 
 watch(
   () => route.path,
   () => {
-    state.activeTabKey = route.path
-    setTabByRoute()
+    state.activeTabKey = route.path;
+    setTabByRoute();
   },
   { immediate: true }
-)
+);
 </script>
 
 <style lang="scss" scoped>
@@ -125,10 +125,20 @@ watch(
   }
 
   :deep(.sk-tabs) {
+    .is-active.sk-tabs__item {
+      color: var(--base-main-color);
+    }
+    .sk-tabs__item {
+      color: var(--base-default-fcolor);
+      font-weight: 400;
+    }
     .sk-tabs__item,
     .sk-tabs__header {
       padding: 0;
       margin: 0;
+    }
+    .sk-tabs__nav-wrap::after {
+      height: 0;
     }
   }
 }

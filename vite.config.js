@@ -1,15 +1,15 @@
-import { defineConfig, loadEnv } from 'vite'
-import { resolve } from 'path'
-import vue from '@vitejs/plugin-vue'
-import qiankun from 'vite-plugin-qiankun'
-import { name } from './package.json'
+import { defineConfig, loadEnv } from 'vite';
+import { resolve } from 'path';
+import vue from '@vitejs/plugin-vue';
+import qiankun from 'vite-plugin-qiankun';
+import { name } from './package.json';
 
 const pathResolve = (dir) => {
-  return resolve(__dirname, '.', dir)
-}
+  return resolve(__dirname, '.', dir);
+};
 
 export default defineConfig((mode) => {
-  const { VITE_PORT, VITE_BASE_PATH, VITE_PROXY_URL } = loadEnv(mode, process.cwd())
+  const { VITE_PORT, VITE_BASE_PATH, VITE_PROXY_URL } = loadEnv(mode, process.cwd());
   return {
     base: VITE_BASE_PATH,
     plugins: [
@@ -21,6 +21,7 @@ export default defineConfig((mode) => {
     resolve: {
       alias: {
         '@': pathResolve('./src/'),
+        '~': pathResolve('./src/assets/'),
       },
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
     },
@@ -46,5 +47,5 @@ export default defineConfig((mode) => {
         },
       },
     },
-  }
-})
+  };
+});

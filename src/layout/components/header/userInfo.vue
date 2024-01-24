@@ -13,9 +13,9 @@
 </template>
 
 <script setup>
-import { useUserStore } from '@/store/modules/user'
+import { useUserStore } from '@/store/modules/user';
 
-const userStore = useUserStore()
+const userStore = useUserStore();
 </script>
 
 <style lang="scss" scoped></style>

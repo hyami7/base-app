@@ -7,19 +7,19 @@
  */
 export const Local = {
   set(key, val) {
-    window.localStorage.setItem(key, JSON.stringify(val))
+    window.localStorage.setItem(key, JSON.stringify(val));
   },
   get(key) {
-    const json = window.localStorage.getItem(key)
-    return JSON.parse(json)
+    const json = window.localStorage.getItem(key);
+    return JSON.parse(json);
   },
   remove(key) {
-    window.localStorage.removeItem(key)
+    window.localStorage.removeItem(key);
   },
   clear() {
-    window.localStorage.clear()
+    window.localStorage.clear();
   },
-}
+};
 
 /**
  * window.sessionStorage
@@ -30,16 +30,16 @@ export const Local = {
  */
 export const Session = {
   set(key, val) {
-    window.sessionStorage.setItem(key, JSON.stringify(val))
+    window.sessionStorage.setItem(key, JSON.stringify(val));
   },
   get(key) {
-    const json = window.sessionStorage.getItem(key)
-    return JSON.parse(json)
+    const json = window.sessionStorage.getItem(key);
+    return JSON.parse(json);
   },
   remove(key) {
-    window.sessionStorage.removeItem(key)
+    window.sessionStorage.removeItem(key);
   },
   clear() {
-    window.sessionStorage.clear()
+    window.sessionStorage.clear();
   },
-}
+};

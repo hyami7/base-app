@@ -20,29 +20,19 @@
   </div>
 </template>
 <script setup>
-import { onClickMenu } from '@/utils/router'
-import { useRouter } from 'vue-router'
-import menuTree from './menuTree'
-import { useUserStore } from '@/store/modules/user'
-import { useTabsStore } from '@/store/modules/tabs'
+import { onClickMenu } from '@/utils/router';
+import { useRouter } from 'vue-router';
+import menuTree from './menuTree';
+import { useUserStore } from '@/store/modules/user';
+import { useTabsStore } from '@/store/modules/tabs';
 
-const userStore = useUserStore()
-const tabsStore = useTabsStore()
-const router = useRouter()
-const props = defineProps(['menus'])
+const userStore = useUserStore();
+const tabsStore = useTabsStore();
+const router = useRouter();
+const props = defineProps(['menus']);
 const onClickedMenu = (menu) => {
-  onClickMenu(menu, router)
-}
+  onClickMenu(menu, router);
+};
 </script>
 
-<style scoped>
-.sk-sub-menu .icon,
-.sk-menu-item .icon {
-  font-size: 18px;
-  vertical-align: middle;
-  margin-right: 5px;
-  width: 24px;
-  text-align: center;
-  flex-shrink: 0;
-}
-</style>
+<style lang="scss" scoped></style>

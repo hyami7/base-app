@@ -24,51 +24,51 @@
 </template>
 
 <script setup>
-import { reactive, ref, onMounted } from 'vue'
-import { login, randomString } from '@/api/common'
-import { useRouter, useRoute } from 'vue-router'
-import { useUserStore } from '@/store/modules/user'
-import CryptoJS from 'crypto-js'
-import { loginData } from './data'
-import { initWaterMark } from '@/utils/watermark'
+import { reactive, ref, onMounted } from 'vue';
+import { login, randomString } from '@/api/common';
+import { useRouter, useRoute } from 'vue-router';
+import { useUserStore } from '@/store/modules/user';
+import CryptoJS from 'crypto-js';
+import { loginData } from './data';
+import { initWaterMark } from '@/utils/watermark';
 
-const router = useRouter()
-const route = useRoute()
-const userStore = useUserStore()
-const formRef = ref(null)
+const router = useRouter();
+const route = useRoute();
+const userStore = useUserStore();
+const formRef = ref(null);
 const rules = ref({
   change: [{ required: true, message: '请输入', trigger: 'change' }],
-})
-const loading = ref(false)
+});
+const loading = ref(false);
 const user = reactive({
   account: 'admin',
   password: undefined,
-})
+});
 
 const handleSubmit = async () => {
-  const valid = await formRef.value?.validate()
+  const valid = await formRef.value?.validate();
   if (!valid) {
-    return false
+    return false;
   }
-  loading.value = true
+  loading.value = true;
 
   // const data = await login(user).finally(() => {
   //   loading.value = false;
   // });
-  const data = loginData
-  userStore.setUser({ ...data.user, token: data.token })
-  loading.value = false
+  const data = loginData;
+  userStore.setUser({ ...data.user, token: data.token });
+  loading.value = false;
 
-  let redirect = route.query.redirect || '/'
+  let redirect = route.query.redirect || '/';
   if (typeof redirect !== 'string') {
-    redirect = '/'
+    redirect = '/';
   }
-  router.replace(redirect)
-}
+  router.replace(redirect);
+};
 
 onMounted(() => {
-  initWaterMark('')
-})
+  initWaterMark('');
+});
 </script>
 
 <style lang="scss" scoped>

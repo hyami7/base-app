@@ -22,14 +22,14 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, toRaw } from 'vue'
-import { useEventListener } from '@vueuse/core'
+import { onMounted, reactive, toRaw } from 'vue';
+import { useEventListener } from '@vueuse/core';
 const props = defineProps({
   width: Number | String,
   items: Array,
-})
+});
 
-const emits = defineEmits()
+const emits = defineEmits();
 
 const state = reactive({
   show: false,
@@ -39,31 +39,31 @@ const state = reactive({
   },
   menu: undefined,
   arrowAxis: 10,
-})
+});
 
 const onShowContextmenu = (menu, axis) => {
-  state.menu = menu
-  state.axis = axis
-  state.show = true
-}
+  state.menu = menu;
+  state.axis = axis;
+  state.show = true;
+};
 
 const onContextmenuItem = (item) => {
-  if (item.disabled) return
-  item.menu = toRaw(state.menu)
-  emits('contextmenuItemClick', item)
-}
+  if (item.disabled) return;
+  item.menu = toRaw(state.menu);
+  emits('contextmenuItemClick', item);
+};
 
 const onHideContextmenu = () => {
-  if (state && state.show) state.show = false
-}
+  if (state && state.show) state.show = false;
+};
 defineExpose({
   onShowContextmenu,
   onHideContextmenu,
-})
+});
 
 onMounted(() => {
-  useEventListener(document, 'click', onHideContextmenu)
-})
+  useEventListener(document, 'click', onHideContextmenu);
+});
 </script>
 
 <style scoped>

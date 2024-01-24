@@ -19,21 +19,21 @@
 -->
 
 <script setup>
-import { watch } from 'vue'
-import { useTabsStore } from '@/store/modules/tabs'
-import { useRoute } from 'vue-router'
+import { watch } from 'vue';
+import { useTabsStore } from '@/store/modules/tabs';
+import { useRoute } from 'vue-router';
 
-const route = useRoute()
-const tabsStore = useTabsStore()
+const route = useRoute();
+const tabsStore = useTabsStore();
 
 watch(
   () => route.path,
   () => {
-    tabsStore.setActiveKey(route.path)
-    tabsStore.addKeepaliveList(route)
+    tabsStore.setActiveKey(route.path);
+    tabsStore.addKeepaliveList(route);
   },
   { immediate: true }
-)
+);
 </script>
 
 <style lang="scss" scoped>
@@ -41,10 +41,10 @@ watch(
   height: calc(100vh - var(--base-header-height) - var(--base-tab-height));
   width: 100%;
   box-sizing: border-box;
-  padding: 16px;
+  padding: var(--base-padding-16);
   overflow: hidden;
 
-  background-color: #e9eef3;
+  background-color: var(--base-default-bg);
 
   @include e(scroll) {
     width: 100%;
